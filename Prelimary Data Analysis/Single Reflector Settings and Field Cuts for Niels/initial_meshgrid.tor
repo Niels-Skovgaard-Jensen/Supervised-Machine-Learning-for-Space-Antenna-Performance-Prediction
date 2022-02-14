@@ -1,0 +1,151 @@
+freq_ind_model_design_main_focal_length_over_diameter  real_variable  
+(
+  value            : 1.0
+)
+ 
+freq_ind_model_wizard_focal_length  real_variable  
+(
+  value            : 
+"ref(freq_ind_model_design_main_focal_length_over_diameter)*ref(freq_ind_model_design_reflector_diameter)"
+)
+ 
+freq_ind_model_design_reflector_diameter  real_variable  
+(
+  value            : 1.0
+)
+ 
+freq_ind_model_wizard_offset  real_variable  
+(
+  value            : 
+"ref(freq_ind_model_design_offset_over_diameter)*ref(freq_ind_model_design_reflector_diameter)"
+)
+ 
+freq_ind_model_design_offset_over_diameter  real_variable  
+(
+  value            : 0.0
+)
+ 
+freq_ind_model_wizard_clearance  real_variable  
+(
+  value            : "ref(freq_ind_model_wizard_offset)-ref(freq_ind_model_design_reflector_diameter)/2.00"
+)
+ 
+freq_ind_model_design_feed_taper  real_variable  
+(
+  value            : -12.0
+)
+ 
+freq_ind_model_wizard_feed_taper_angle  real_variable  
+(
+  value            : 
+"atand((ref(freq_ind_model_wizard_offset)+ref(freq_ind_model_design_reflector_diameter)/2)/(2*ref(freq_ind_model_wizard_focal_length)))-atand((ref(freq_ind_model_wizard_offset)-ref(freq_ind_model_design_reflector_diameter)/2)/(2*ref(freq_ind_model_wizard_focal_length)))"
+)
+ 
+freq_ind_model_wizard_feed_tf  real_variable  
+(
+  value            : 
+"2.0*atand(ref(freq_ind_model_wizard_offset)/(2.0*ref(freq_ind_model_wizard_focal_length)))"
+)
+ 
+freq_ind_model_wizard_z0  real_variable  
+(
+  value            : "ref(freq_ind_model_wizard_offset)^2.0/(4.0*ref(freq_ind_model_wizard_focal_length))"
+)
+ 
+freq_ind_model_global_coor  coor_sys  
+(
+)
+ 
+freq_ind_model_wavelengths  wavelength  
+(
+  wavelength_list  : sequence(0.001 m)
+)
+ 
+freq_ind_model_surface  paraboloid  
+(
+  focal_length     : "ref(freq_ind_model_wizard_focal_length)" m
+)
+ 
+freq_ind_model_rim  elliptical_rim  
+(
+  centre           : struct(x: "ref(freq_ind_model_wizard_offset)" m, y: 0.0 m),
+  half_axis        : struct(x: "ref(freq_ind_model_design_reflector_diameter)/2.0" m, y: 
+"ref(freq_ind_model_design_reflector_diameter)/2.0" m)
+)
+ 
+freq_ind_model_reflector  reflector  
+(
+  coor_sys         : ref(freq_ind_model_global_coor),
+  surfaces         : sequence(ref(freq_ind_model_surface)),
+  rim              : ref(freq_ind_model_rim)
+)
+ 
+freq_ind_model_feed_coor  coor_sys  
+(
+  origin           : struct(x: 0.0 m, y: 0.0 m, z: "ref(freq_ind_model_wizard_focal_length)" m),
+  x_axis           : struct(x: "cosd(ref(freq_ind_model_wizard_feed_tf))", y: 0.0, z: 
+"sind(ref(freq_ind_model_wizard_feed_tf))"),
+  y_axis           : struct(x: 0.0, y: -1.0, z: 0.0),
+  base             : ref(freq_ind_model_global_coor)
+)
+ 
+freq_ind_model_feed  gaussian_beam_pattern  
+(
+  frequency        : ref(freq_ind_model_wavelengths),
+  coor_sys         : ref(freq_ind_model_feed_coor),
+  taper_angle      : "ref(freq_ind_model_wizard_feed_taper_angle)",
+  taper            : "ref(freq_ind_model_design_feed_taper)"
+)
+ 
+freq_ind_model_po  po_single_face_scatterer  
+(
+  frequency        : ref(freq_ind_model_wavelengths),
+  scatterer        : ref(freq_ind_model_reflector),
+  coor_sys         : ref(freq_ind_model_global_coor)
+)
+ 
+freq_ind_model_cut_coor  coor_sys  
+(
+  origin           : struct(x: "ref(freq_ind_model_wizard_offset)" m, y: 0.0 m, z: 
+"ref(freq_ind_model_wizard_z0)" m),
+  base             : ref(freq_ind_model_global_coor)
+)
+ 
+freq_ind_model_cut  spherical_cut  
+(
+  coor_sys         : ref(freq_ind_model_cut_coor),
+  theta_range      : struct(start: -45.0, end: 45, np: 1001),
+  phi_range        : struct(start: 0.0, end: 90.0, np: 1),
+  frequency        : ref(freq_ind_model_wavelengths)
+)
+ 
+//DO NOT MODIFY OBJECTS BELOW THIS LINE.
+//THESE OBJECTS ARE CREATED AND MANAGED BY THE
+//GRAPHICAL USER INTERFACE AND SHOULD NOT BE
+//MODIFIED MANUALLY!
+view_1  view  
+(
+  objects          : sequence(ref(feed_plot_for_view_1),ref(output_points_plot_for_view_1),
+ref(coor_sys_plot_for_view_1),ref(reflector_plot_for_view_1))
+)
+ 
+feed_plot_for_view_1  feed_plot  
+(
+  surface_colour   : struct(r: 0.72156862745098, g: 0.450980392156863, b: 0.2)
+)
+ 
+output_points_plot_for_view_1  output_points_plot  
+(
+)
+ 
+coor_sys_plot_for_view_1  coor_sys_plot  
+(
+)
+ 
+reflector_plot_for_view_1  reflector_plot  
+(
+  surface_colour   : struct(r: 0.72156862745098, g: 0.450980392156863, b: 0.2)
+)
+ 
+ //$$ Saved at 11:42:57 on 22.11.2021 by TICRA Tools 21.0.1 SN=008911
+  

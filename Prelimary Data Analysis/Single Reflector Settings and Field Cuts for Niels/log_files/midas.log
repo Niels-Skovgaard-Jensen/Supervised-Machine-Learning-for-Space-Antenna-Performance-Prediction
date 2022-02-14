@@ -1,0 +1,6 @@
+2022-02-11 14:17:36,070 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:30] MIDAS started on February 11 2022 14:17:36
+2022-02-11 14:17:36,107 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:176] Searching disk for latest version of ticra-tools.
+2022-02-11 14:17:36,107 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:213] Now using version TICRA-Tools-22.0-2021-12-08.
+2022-02-11 14:17:36,108 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:249] TICRA TOOLS was started in /home/sa/Documents/sa_freq_ind_models/niels_s174010_msc_data/initial_meshgrid/initial_meshgrid_11-02-2022_14.17.36
+2022-02-11 14:22:54,838 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:283] TICRA TOOLS execution time = 0:05:18.730021
+2022-02-11 14:22:55,426 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:57] MIDAS stopped on February 11 2022 14:22:55, total execution time = 0:05:19.355849
