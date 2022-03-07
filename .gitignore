@@ -7,3 +7,4 @@ docs/_build/
 
 # Jupyter notebook
 .ipynb_checkpoints
+importTest.ipynb
