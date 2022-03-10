@@ -8,3 +8,6 @@ docs/_build/
 # Jupyter notebook
 .ipynb_checkpoints
 importTest.ipynb
+
+#Weights and Biases Runs
+wandb/
