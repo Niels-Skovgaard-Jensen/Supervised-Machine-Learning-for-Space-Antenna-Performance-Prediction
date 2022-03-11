@@ -4,6 +4,7 @@ This repository is an overview of the work conducted as my master thesis at The 
 
 The main objective is to create surrogate models of antennas from data created by fine antennas models. Here TICRAS Toolset has been used for generating far field antenna patterns of different antenna configurations which are then modelled by a set of different machine learning methods.
 
+For overview and mathy stuff look [here](https://skoogydan.github.io/Supervised-Machine-Learning-for-Space-Antenna-Performance-Prediction/)
 
 
 The project is structured roughly in accordance with the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).
