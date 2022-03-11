@@ -19,8 +19,3 @@ class FFTNet(nn.Module):
         return output
 
     
-def init_weights(m):
-    if isinstance(m, nn.Linear):
-        torch.nn.init.xavier_uniform_(m.weight)
-        m.bias.data.fill_(np.mean(copolar))
-        
