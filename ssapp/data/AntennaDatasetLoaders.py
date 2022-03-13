@@ -1,7 +1,21 @@
+from cmath import log
 from torch.utils.data import Dataset
 from pathlib import Path
 import numpy as np
 import torch
+
+
+def get_raw_dataset_path(dataset_name):
+
+    main_dir = Path().cwd().parents[1]
+    data_dir = main_dir / 'data'
+    subdict_dir = data_dir / 'raw'
+    dataset_dir = subdict_dir / dataset_name
+
+    cut_folder = dataset_dir / 'cut_files'
+    log_file = dataset_dir / "log_files" / "lookup.log"
+
+    return cut_folder, log_file
 
 
 class SingleCutDataset(Dataset):

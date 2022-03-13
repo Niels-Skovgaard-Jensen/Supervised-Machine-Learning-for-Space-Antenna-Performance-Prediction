@@ -1,4 +1,5 @@
-
+import torch
+from pathlib import Path
 
 def TrainNetwork(model, epochs, optimizer, criterion, train_dataloader, test_dataloader):
     
@@ -53,4 +54,17 @@ def TrainNetwork(model, epochs, optimizer, criterion, train_dataloader, test_dat
 
 
 
+def saveModel(model,name):
 
+
+
+    torch.save(model.state_dict(), PATH)
+
+
+    return True
+
+def loadModel(PATH,modelClass):
+    model = modelClass()
+    model.load_state_dict(torch.load(PATH))
+    model.eval()
+    return True
