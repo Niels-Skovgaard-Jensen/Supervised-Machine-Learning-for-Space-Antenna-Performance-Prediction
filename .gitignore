@@ -13,3 +13,5 @@ wandb/
 .vscode
 
 SumSapp.egg-info/
+dist/
+build/
