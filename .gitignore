@@ -15,3 +15,4 @@ wandb/
 SumSapp.egg-info/
 dist/
 build/
+ssapp.egg-info/
