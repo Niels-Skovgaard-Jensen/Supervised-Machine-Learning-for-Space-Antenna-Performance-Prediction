@@ -2,7 +2,7 @@ import torch.nn as nn
 
 
 class PatchAntenna1ConvAutoEncoder(nn.Module):
-    def __init__(self):
+    def __init__(self, Latent_size = 10):
         super(PatchAntenna1ConvAutoEncoder, self).__init__()
 
 
@@ -13,26 +13,22 @@ class PatchAntenna1ConvAutoEncoder(nn.Module):
                                     stride=2)
         self.conv_encoder2 = nn.Conv2d(in_channels=8,
                                     out_channels=16,
-                                    kernel_size=(3,1),
-                                    stride=2,
-                                    padding = (2,0))
+                                    kernel_size=3,
+                                    stride=2)
 
-        self.linear_to_latent = nn.Linear(in_features=16*91*3,
-                                        out_features= 10)
+
+        self.linear_to_latent = nn.Linear(in_features=16*90,
+                                        out_features= Latent_size)
         
-        self.latent_to_linear = nn.Linear(in_features=10,
-                                        out_features= 16*91*3)
+        self.latent_to_linear = nn.Linear(in_features=Latent_size,
+                                        out_features= 16*90)
 
         self.conv_decoder1 =  nn.ConvTranspose2d(in_channels=16,
                                         out_channels=8,
-                                        kernel_size=(3,1),
+                                        kernel_size=3,
                                         stride=2,
-
-                                        padding = (0,0))
-
-
-
-
+                                        padding = (0,0),
+                                        output_padding=(0,1))
 
 
         self.conv_decoder2 =  nn.ConvTranspose2d(in_channels=8,
@@ -41,13 +37,15 @@ class PatchAntenna1ConvAutoEncoder(nn.Module):
                                         padding=2,
                                         stride=2)
 
+        self.activation = nn.LeakyReLU()
+
 
     def encode(self,x):
         x = x.reshape(-1,4,3,361) # [Batch_size, Channels, Height, Width]
         x = self.conv_encoder1(x)
-        print('Encoder conv1Shape',x.shape)
+        x = self.activation(x)
         x = self.conv_encoder2(x)
-        print('Encoder Conv2Shape',x.shape)
+        x = self.activation(x)
         x = x.flatten()
         latent_space = self.linear_to_latent(x)
 
@@ -55,13 +53,18 @@ class PatchAntenna1ConvAutoEncoder(nn.Module):
 
     def decode(self,y):
         y = self.latent_to_linear(y)
-        y = y.reshape(1,16,3,91)
+        y = self.activation(y)
+        y = y.reshape(1,16,1,90)
         y = self.conv_decoder1(y)
+        y = self.activation(y)
+        y = self.conv_decoder2(y).reshape(-1,361,3,4)
         return y
 
 
     def forward(self, x):
+
         self.latent_space = self.encode(x)
-        output = self.latent_space
+        output = self.decode(self.latent_space)
+
         return output
 
