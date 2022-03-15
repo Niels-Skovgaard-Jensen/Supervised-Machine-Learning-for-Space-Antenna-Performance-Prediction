@@ -15,7 +15,8 @@ from ssapp.models.HelperFunctions import saveModel
 from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset
 
 import wandb
-
+print('Running')
+torch.manual_seed(42)
 
 
 if __name__ == "__main__":
@@ -38,7 +39,8 @@ if __name__ == "__main__":
     "epochs": EPOCHS,
     "batch_size": BATCH_SIZE,
     "latent_size": LATENT_SIZE,
-    "number_cuts" : CUTS 
+    "number_cuts" : CUTS,
+    "random_seed" : 42,
     }
 
     data = PatchAntennaDataset()
