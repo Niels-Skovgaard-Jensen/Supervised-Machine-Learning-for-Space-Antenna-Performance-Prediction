@@ -52,19 +52,22 @@ def TrainNetwork(model, epochs, optimizer, criterion, train_dataloader, test_dat
             
     return model, train_loss_array, test_loss_array
 
+def getSaveModeldir():
+    main_dir = Path().cwd().parents[1]
+    models_dir = main_dir / 'models' 
 
+    return models_dir
 
 def saveModel(model,name):
 
-
-
+    models_dir = getSaveModeldir()
+    PATH = models_dir / name
     torch.save(model.state_dict(), PATH)
 
-
     return True
 
-def loadModel(PATH,modelClass):
-    model = modelClass()
+def loadModel(model,name):
+    models_dir = getSaveModeldir()
+    PATH = models_dir / name
     model.load_state_dict(torch.load(PATH))
-    model.eval()
-    return True
+    return model
