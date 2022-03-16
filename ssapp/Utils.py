@@ -1,13 +1,10 @@
 from pathlib import Path
+from torch.utils.data import random_split
 
 
-def get_model_save_path(type: str, name : str):
-    main_dir = Path().cwd().parents[1]
-    data_dir = main_dir / 'models'
-    subdict_dir = data_dir / 'raw'
-    dataset_dir = subdict_dir / 
 
-    cut_dir = dataset_dir / 'cut_files'
-    log_dir = dataset_dir / "log_files" 
+def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7):
 
-    return cut_dir, log_dir
+    train_len = int(len(dataset)*TRAIN_TEST_RATIO)
+    train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len])    
+    return train_set, test_set
