@@ -62,12 +62,17 @@ def saveModel(model,name):
 
     models_dir = getSaveModeldir()
     PATH = models_dir / name
-    torch.save(model.state_dict(), PATH)
+    torch.save(model.detach().to('cpu').state_dict(), PATH)
 
     return True
 
 def loadModel(model,name):
+
     models_dir = getSaveModeldir()
     PATH = models_dir / name
-    model.load_state_dict(torch.load(PATH))
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load(PATH))
+    else:
+        model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
     return model
+

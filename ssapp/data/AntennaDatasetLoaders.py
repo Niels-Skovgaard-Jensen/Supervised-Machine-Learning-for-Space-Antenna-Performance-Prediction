@@ -215,6 +215,9 @@ class PatchAntennaDataset(Dataset):
     def __len__(self):
         return self.cuts
     
+    def to(self,device):
+        self.field_
+
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
@@ -230,6 +233,9 @@ class PatchAntennaDataset(Dataset):
 
             
         return parameters, field_val
+
+
+
 
 class PatchAntennaDatasetComplex(PatchAntennaDataset):
 
