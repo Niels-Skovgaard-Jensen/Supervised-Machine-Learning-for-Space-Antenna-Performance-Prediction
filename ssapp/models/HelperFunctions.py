@@ -62,7 +62,7 @@ def saveModel(model,name):
 
     models_dir = getSaveModeldir()
     PATH = models_dir / name
-    torch.save(model.detach().to('cpu').state_dict(), PATH)
+    torch.save(model.state_dict(), PATH)
 
     return True
 

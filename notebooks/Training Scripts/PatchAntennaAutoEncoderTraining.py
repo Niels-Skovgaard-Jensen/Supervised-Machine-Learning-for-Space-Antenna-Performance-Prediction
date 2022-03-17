@@ -76,17 +76,20 @@ if __name__ == "__main__":
 
     DEFAULT_CONFIG = {
     "learning_rate": 1e-3,
-    "epochs": 500,
+    "epochs": 1000,
     "batch_size": 1,
-    "latent_size": 2,
+    "latent_size": 20,
     "number_cuts" : 343,
     "random_seed" : 42,
-    }
+    'coder_channel_1': 8,
+    'coder_channel_2': 16,
+    'cuts': 343}
 
     wandb.init(config = DEFAULT_CONFIG,project="FarFieldAutoEncoder", entity="skoogy_dan")
     CONFIG = wandb.config
     run_name = wandb.run.name
 
+    
     BATCH_SIZE = 1
     EPOCHS = CONFIG['epochs']
     CUTS = 343 #max 343
@@ -94,14 +97,14 @@ if __name__ == "__main__":
     LEARNING_RATE = CONFIG['learning_rate']
 
 
-    data = PatchAntennaDataset()
+    data = PatchAntennaDataset(cuts = CONFIG['cuts'])
     train_data, test_data = train_test_data_split(data, TRAIN_TEST_RATIO = 0.7)
 
-    train_loader = DataLoader(train_data,batch_size=BATCH_SIZE,shuffle=True)
-    test_loader = DataLoader(test_data,batch_size=BATCH_SIZE,shuffle=True)
+    train_loader = DataLoader(train_data,batch_size=CONFIG['batch_size'],shuffle=True)
+    test_loader = DataLoader(test_data,batch_size=CONFIG['batch_size'],shuffle=True)
 
 
-    model = PatchAntenna1ConvAutoEncoder(Latent_size = LATENT_SIZE)
+    model = PatchAntenna1ConvAutoEncoder(CONFIG)
     model = model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)

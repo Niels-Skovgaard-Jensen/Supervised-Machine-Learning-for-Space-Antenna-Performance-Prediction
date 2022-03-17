@@ -2,36 +2,42 @@ import torch.nn as nn
 import torch
 
 class PatchAntenna1ConvAutoEncoder(nn.Module):
-    def __init__(self, Latent_size = 10):
+    def __init__(self, CONFIG = {'latent_size': 20,
+                                'coder_channel_1': 8,
+                                'coder_channel_2': 16}):
         super(PatchAntenna1ConvAutoEncoder, self).__init__()
+
+        Latent_size = CONFIG['latent_size']
+        coder_channel_1 = CONFIG['coder_channel_1']
+        coder_channel_2 = CONFIG['coder_channel_2']
 
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
-                                    out_channels=8,
+                                    out_channels=coder_channel_1,
                                     kernel_size=3,
                                     padding = 2,
                                     stride=2)
-        self.conv_encoder2 = nn.Conv2d(in_channels=8,
-                                    out_channels=16,
+        self.conv_encoder2 = nn.Conv2d(in_channels=coder_channel_1,
+                                    out_channels=coder_channel_2,
                                     kernel_size=3,
                                     stride=2)
 
 
-        self.linear_to_latent = nn.Linear(in_features=16*90,
+        self.linear_to_latent = nn.Linear(in_features=coder_channel_2*90,
                                         out_features= Latent_size)
         
         self.latent_to_linear = nn.Linear(in_features=Latent_size,
-                                        out_features= 16*90)
+                                        out_features= coder_channel_2*90)
 
-        self.conv_decoder1 =  nn.ConvTranspose2d(in_channels=16,
-                                        out_channels=8,
+        self.conv_decoder1 =  nn.ConvTranspose2d(in_channels=coder_channel_2,
+                                        out_channels=coder_channel_1,
                                         kernel_size=3,
                                         stride=2,
                                         padding = (0,0),
                                         output_padding=(0,1))
 
 
-        self.conv_decoder2 =  nn.ConvTranspose2d(in_channels=8,
+        self.conv_decoder2 =  nn.ConvTranspose2d(in_channels=coder_channel_1,
                                         out_channels=4,
                                         kernel_size=3,
                                         padding=2,
