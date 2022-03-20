@@ -2,14 +2,14 @@ import torch.nn as nn
 import torch
 
 class PatchAntenna1ConvAutoEncoder(nn.Module):
-    def __init__(self, CONFIG = {'latent_size': 20,
+    def __init__(self, config = {'latent_size': 20,
                                 'coder_channel_1': 8,
                                 'coder_channel_2': 16}):
         super(PatchAntenna1ConvAutoEncoder, self).__init__()
-
-        Latent_size = CONFIG['latent_size']
-        coder_channel_1 = CONFIG['coder_channel_1']
-        coder_channel_2 = CONFIG['coder_channel_2']
+        self.config = config
+        Latent_size = self.config['latent_size']
+        coder_channel_1 = self.config['coder_channel_1']
+        coder_channel_2 = self.config['coder_channel_2']
 
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
@@ -60,7 +60,7 @@ class PatchAntenna1ConvAutoEncoder(nn.Module):
     def decode(self,y):
         y = self.latent_to_linear(y)
         y = self.activation(y)
-        y = y.reshape(1,16,1,90)
+        y = y.reshape(1,self.config['coder_channel_2'],1,90)
         y = self.conv_decoder1(y)
         y = self.activation(y)
         y = self.conv_decoder2(y).reshape(-1,361,3,4)

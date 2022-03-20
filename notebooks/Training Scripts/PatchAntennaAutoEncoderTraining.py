@@ -1,5 +1,6 @@
 
 
+from distutils.command.config import config
 from typing import Dict
 from IPython import display 
 from pathlib import Path
@@ -25,6 +26,7 @@ def train(model : torch.nn, CONFIG : Dict, train_dataloader: DataLoader,test_dat
     EPOCHS = CONFIG['epochs']
     BATCH_SIZE = CONFIG['batch_size']
 
+    best_val_loss = float("inf")
     train_loss_array = []
     validation_loss_array = []
     for epoch in range(EPOCHS):
@@ -61,13 +63,19 @@ def train(model : torch.nn, CONFIG : Dict, train_dataloader: DataLoader,test_dat
         
         loss = loss/(len(train_dataloader))
         val_loss = test_loss/len(test_dataloader)
+
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            model_to_save = model
+
         wandb.log({'loss':loss,
-                    'val_loss':val_loss})
+                    'val_loss':val_loss,
+                    'best_val_loss':best_val_loss})
         train_loss_array.append(loss)
         # display the epoch training loss
         print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, EPOCHS, loss,val_loss))
 
-    return model
+    return model, model_to_save
 
 if __name__ == "__main__":
     
@@ -75,11 +83,10 @@ if __name__ == "__main__":
     print('Device:',device)
 
     DEFAULT_CONFIG = {
-    "learning_rate": 1e-3,
-    "epochs": 1000,
+    "learning_rate": 4e-4,
+    "epochs": 2000,
     "batch_size": 1,
-    "latent_size": 20,
-    "number_cuts" : 343,
+    "latent_size": 2,
     "random_seed" : 42,
     'coder_channel_1': 8,
     'coder_channel_2': 16,
@@ -88,14 +95,7 @@ if __name__ == "__main__":
     wandb.init(config = DEFAULT_CONFIG,project="FarFieldAutoEncoder", entity="skoogy_dan")
     CONFIG = wandb.config
     run_name = wandb.run.name
-
-    
-    BATCH_SIZE = 1
-    EPOCHS = CONFIG['epochs']
-    CUTS = 343 #max 343
-    LATENT_SIZE = CONFIG['latent_size']
-    LEARNING_RATE = CONFIG['learning_rate']
-
+    print('Applied Configuration:', CONFIG)
 
     data = PatchAntennaDataset(cuts = CONFIG['cuts'])
     train_data, test_data = train_test_data_split(data, TRAIN_TEST_RATIO = 0.7)
@@ -104,14 +104,14 @@ if __name__ == "__main__":
     test_loader = DataLoader(test_data,batch_size=CONFIG['batch_size'],shuffle=True)
 
 
-    model = PatchAntenna1ConvAutoEncoder(CONFIG)
+    model = PatchAntenna1ConvAutoEncoder(config = CONFIG)
     model = model.to(device)
 
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
     criterion = nn.MSELoss()
 
 
-    model = train(model = model,
+    final_model,best_model = train(model = model,
                 CONFIG = CONFIG,
                 train_dataloader= train_loader,
                 test_dataloader=test_loader,
@@ -119,4 +119,5 @@ if __name__ == "__main__":
                 criterion=criterion)
     
 
-    saveModel(model, run_name)
+    saveModel(final_model, run_name)
+    saveModel(best_model, run_name + '_best_val')
