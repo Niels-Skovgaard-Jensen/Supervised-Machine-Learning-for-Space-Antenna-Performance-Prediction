@@ -3,6 +3,10 @@ import torch
 import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
+from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset
+from torch.utils.data.dataloader import DataLoader
+from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset
+import ssapp.Utils as Utils
 
 
 def plotEncodingVerificaiton(model, train_field):
@@ -52,4 +56,34 @@ def plotEncodingVerificaiton(model, train_field):
     axs[1,2].set_ylabel('Crosspolar Amplitude [dB]')
 
 
-def plt_2D_PCA_Patch_Dataset(data, )
+def plt_2D_PCA()
+
+    BATCH_SIZE = 1
+
+    dataset = PatchAntennaDataset()
+    train_data, test_data = Utils.train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7)
+
+    train_loader = DataLoader(train_data,batch_size=BATCH_SIZE,shuffle=True)
+    test_loader = DataLoader(test_data,batch_size=BATCH_SIZE,shuffle=True)
+
+    pca = PCA(n_components=10)
+    train_loader = DataLoader(train_data,batch_size=bs,shuffle=True)
+    test_loader = DataLoader(test_data,batch_size=bs,shuffle=True)
+    TRAIN_PARAMS,TRAIN_FIELDS = next(iter(train_loader))
+    TEST_PARAMS,TEST_FIELDS = next(iter(train_loader))
+
+    pca_results = pca.fit_transform(TEST_FIELDS.reshape((bs,-1)))
+    print(pca.explained_variance_ratio_)
+    print(sum(pca.explained_variance_ratio_))
+
+    print(TEST_FIELDS.reshape((len(TEST_FIELDS),-1)).shape)
+    print(TEST_PARAMS.reshape((len(TEST_FIELDS),-1)).shape)
+
+    param_names = ['Coax Placement-X','Coax Placement-Y','Substrate Permitivity']
+
+    fig, axs = plt.subplots(nrows = 1, ncols = 3,figsize = (14,3))
+    fig.suptitle('Patch Antenna Dataset PCA Projection With Parameter Coloring')
+    for i in range(0,3):
+        im = axs[i].scatter(pca_results[:,0],pca_results[:,1],c = TEST_PARAMS[:,i],cmap = 'plasma')
+        cbar = plt.colorbar(im,ax=axs[i])
+        cbar.set_label(param_names[i])
