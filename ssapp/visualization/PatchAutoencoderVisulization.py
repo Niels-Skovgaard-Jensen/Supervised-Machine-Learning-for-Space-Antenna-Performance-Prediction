@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
 import torch
 import numpy as np
+from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
 
 
 def plotEncodingVerificaiton(model, train_field):
@@ -48,3 +50,6 @@ def plotEncodingVerificaiton(model, train_field):
     axs[1,2].set_xlabel(r'$\theta$')
     axs[1,2].grid()
     axs[1,2].set_ylabel('Crosspolar Amplitude [dB]')
+
+
+def plt_2D_PCA_Patch_Dataset(data, )
