@@ -1,7 +1,5 @@
 
 
-from distutils.command.config import config
-from typing import Dict
 from IPython import display 
 from pathlib import Path
 from matplotlib import pyplot as plt
@@ -21,7 +19,7 @@ import wandb
 print('Running')
 torch.manual_seed(42)
 
-def train(model : torch.nn, CONFIG : Dict, train_dataloader: DataLoader,test_dataloader, optimizer,criterion):
+def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader, optimizer,criterion):
 
     EPOCHS = CONFIG['epochs']
     BATCH_SIZE = CONFIG['batch_size']
