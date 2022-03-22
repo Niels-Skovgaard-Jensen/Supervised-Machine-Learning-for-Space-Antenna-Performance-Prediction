@@ -19,16 +19,16 @@ class FFTNet(nn.Module):
         return output
 
     
-class LatentSpaceNet(nn.module):
+class LatentSpaceNet(nn.Module):
     def __init__(self,NN = 10):
-        super(FFTNet, self).__init__()
+        super(LatentSpaceNet, self).__init__()
 
         self.regressor = nn.Sequential(nn.Linear(3, NN),
-                                       nn.Tanh(),
+                                       nn.ReLU(),
                                        nn.Linear(NN, NN*2),
-                                       nn.Tanh(),
+                                       nn.ReLU(),
                                        nn.Linear(NN*2, NN),
-                                       nn.Tanh(),
+                                       nn.ReLU(),
                                        nn.Linear(NN, 2))
 
 
