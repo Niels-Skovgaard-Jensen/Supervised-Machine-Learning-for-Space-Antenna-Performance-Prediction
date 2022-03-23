@@ -122,7 +122,7 @@ class ReflectorCutDataset2(Dataset):
     """
     To use for loading and parsing the ReflectorAntennaSimpleDataset2"""
 
-    def __init__(self, cuts = 343,
+    def __init__(self, cuts = 360,
                  flatten_output = False,
                  standardized_parameters = False):
         """
@@ -139,7 +139,7 @@ class ReflectorCutDataset2(Dataset):
         cut_dir, param_dir = get_raw_dataset_path('ReflectorAntennaSimpleDataset2')
         param_file = param_dir / 'lookup.log'
         
-        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=343-cuts,dtype = np.float32)
+        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=360-cuts,dtype = np.float32)
         self.antenna_parameters = self.antenna_parameters.reshape(cuts,4)[:,1:4]
 
         ## Kinda hardcoded fix, might want to automate it a little more
