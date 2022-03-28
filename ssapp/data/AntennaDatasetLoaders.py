@@ -206,7 +206,6 @@ class ReflectorCutDatasetComplex(ReflectorCutDataset):
             flatten_output (Boolean) : Flattens output into [cuts, 1001]
             magnitude_only : Only return magnitude of the complex dataset
             standardized_parameters : Standarizes the dataset for every parameter
-            
         """
         super().__init__(cuts = cuts, flatten_output = flatten_output)
         self.co_polar_only = co_polar_only
