@@ -18,3 +18,4 @@ dist/
 build/
 ssapp.egg-info/
 JobScripts/
+data/processed/PatchAntennaDataset2.pickle
