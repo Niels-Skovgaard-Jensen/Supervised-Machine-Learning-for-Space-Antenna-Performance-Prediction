@@ -11,6 +11,7 @@ docs/_build/
 #Weights and Biases Runs
 wandb/
 .vscode
+.pickle
 
 SumSapp.egg-info/
 dist/

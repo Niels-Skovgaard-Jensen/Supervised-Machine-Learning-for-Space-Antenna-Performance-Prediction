@@ -2,6 +2,22 @@ from torch.utils.data import Dataset
 from pathlib import Path
 import numpy as np
 import torch
+import random
+import os
+import pickle
+
+def set_global_random_seed(seed=42):
+    """"
+    Seed everything.
+    """   
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+
 
 
 def get_raw_dataset_path(dataset_name: str):
@@ -16,12 +32,48 @@ def get_raw_dataset_path(dataset_name: str):
 
     return cut_dir, log_dir
 
+def get_processed_dataset_path(dataset_name: str):
+
+    main_dir = Path().cwd().parents[1]
+    data_dir = main_dir / 'data'
+    subdict_dir = data_dir / 'processed'
+    file_dir = subdict_dir / (dataset_name+'.pickle')
+
+    return file_dir
 
 def gen_coords_from_header(V_INI, V_INC,V_NUM, ):
 
     thetas = np.linspace(V_INI,V_INI+V_INC*(V_NUM-1),int(V_NUM))
     phis = None
     return thetas, phis
+
+
+def serialize_dataset(dataset: Dataset):    
+
+    save_dir = get_processed_dataset_path(dataset.name)
+    with open(save_dir,'wb') as f:
+        pickle.dump(dataset,f)
+        f.close()
+
+def dataset_is_serialized(dataset_name: str):
+    
+    serial_dir = get_processed_dataset_path(dataset_name) 
+
+    if serial_dir.is_file():
+        return True
+    return False
+
+def load_serialized_dataset(dataset_name: str):
+
+    load_dir = get_processed_dataset_path(dataset_name)
+    with open(load_dir,'rb') as f:
+        dataset = pickle.load(f)
+        f.close()
+    return dataset
+
+
+    
+    
 
 
 class SingleCutDataset(Dataset):
@@ -251,9 +303,10 @@ class PatchAntennaDataset(Dataset):
         """
         self.cuts = cuts
         self.flatten_output = flatten_output
+        self.name = 'PatchAntennaDataset1'
 
         # Define data placement
-        cut_dir, param_dir = get_raw_dataset_path('PatchAntennaDataset1')
+        cut_dir, param_dir = get_raw_dataset_path(self.name)
         param_file = param_dir / 'lookup.log'
         
         self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=343-cuts,dtype = np.float32)
@@ -287,8 +340,6 @@ class PatchAntennaDataset(Dataset):
     def __len__(self):
         return self.cuts
     
-    def to(self,device):
-        self.field_
 
 
     def __getitem__(self, idx):
@@ -306,7 +357,75 @@ class PatchAntennaDataset(Dataset):
             
         return parameters, field_val
 
+class PatchAntennaDataset2(Dataset):
+    """
+    To use for loading and parsing the ReflectorAntennaSimpleDataset1"""
 
+    def __init__(self, cuts = 3374,
+                 flatten_output = False,
+                 standardized_parameters = False):
+        """
+        Args:
+            cut (integer) : Integer name of file in directory
+            flatten_output (Boolean) : Flattens output into [cuts, 4004]
+            standardized_parameters : Standarizes the dataset for every parameter
+            
+        """
+        self.cuts = cuts
+        self.flatten_output = flatten_output
+        self.name = 'PatchAntennaDataset2'
+
+        # Define data placement
+        cut_dir, param_dir = get_raw_dataset_path(self.name)
+        param_file = param_dir / 'lookup.log'
+        
+        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=3375-cuts,dtype = np.float32)
+        print(self.antenna_parameters.shape)
+        self.antenna_parameters = self.antenna_parameters.reshape(cuts,4)[:,1:4]
+
+        ## Kinda hardcoded fix, might want to automate it a little more
+        file_to_open = cut_dir / '0.cut'
+        V_INI, V_INC, V_NUM, C, ICOMP, ICUT, NCOMP = np.genfromtxt(file_to_open, max_rows=1, skip_header=1)
+        self.V_NUM = int(V_NUM)
+
+        self.thetas = np.linspace(V_INI,V_INI+V_INC*(self.V_NUM-1),int(self.V_NUM))
+        # Generate First Cut
+        self.field_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+        for i in range(1,3):
+                self.field_cut=np.append(self.field_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+        # Then append to that cut
+        for i in range(1,cuts):
+            file_to_open = cut_dir / (str(i)+'.cut')
+            phi_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+            for i in range(1,3):
+                phi_cut=np.append(phi_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+            self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
+        
+        ## Convert to tensors
+        self.field_cut = torch.tensor(self.field_cut)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        ## Apply to device?
+
+    def __len__(self):
+        return self.cuts
+    
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        
+        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        
+        
+        if self.flatten_output:
+            field_val = self.field_cut[idx,:,:].flatten()
+        else:
+            field_val = self.field_cut[idx,:,:]
+
+            
+        return parameters, field_val
 
 
 class PatchAntennaDatasetComplex(PatchAntennaDataset):

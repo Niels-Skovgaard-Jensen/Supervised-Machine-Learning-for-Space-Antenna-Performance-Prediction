@@ -14,11 +14,14 @@ import torch
 from ssapp.models.NeuralNetworkModels.Autoencoders import PatchAntenna1ConvAutoEncoder
 from ssapp.models.NeuralNetworkModels.FFT_Neural_Nets import LatentSpaceNet
 from ssapp.models.HelperFunctions import saveModel, loadModel
-from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset
+from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset, PatchAntennaDataset2, dataset_is_serialized, load_serialized_dataset
 from ssapp.Utils import train_test_data_split
+from ssapp.models.NeuralNetworkModels.SimpleFeedForward import DirectFeedForwardNet2
+
+from sklearn.decomposition import PCA
 
 
-def latent_space_train(model : LatentSpaceNet,decoder:PatchAntenna1ConvAutoEncoder, CONFIG, train_dataloader: DataLoader,test_dataloader, optimizer,criterion):
+def train(model : LatentSpaceNet,decoder:PCA, CONFIG, train_dataloader: DataLoader,test_dataloader, optimizer,criterion):
 
     EPOCHS = CONFIG['epochs']
     BATCH_SIZE = CONFIG['batch_size']
@@ -39,13 +42,16 @@ def latent_space_train(model : LatentSpaceNet,decoder:PatchAntenna1ConvAutoEncod
             latent_space_guess = model(params)
             
             # Decode Latent Space Guess
-            latent_space = decoder.encode(field)
+            latent_space = decoder.transform(field)
 
             # compute training reconstruction loss
-            train_loss = criterion(latent_space_guess, latent_space)
-                
+            train_latent_loss = criterion(latent_space_guess, latent_space)
+
+            rec_field = decoder.inverse_transform(latent_space_guess).reshape(field.shape)
+
+            train_rec_loss = criterion(field, rec_field)
             # compute accumulated gradients
-            train_loss.backward()
+            train_latent_loss.backward()
                 
             # perform parameter update based on current gradients
             optimizer.step()
@@ -107,7 +113,7 @@ if __name__ == "__main__":
     "learning_rate": 4e-4,
     "epochs": 100,
     "batch_size": 1,
-    "latent_size": 2,
+    "latent_size": 5,
     "random_seed" : 42,
     'coder_channel_1': 8,
     'coder_channel_2': 16,
@@ -118,23 +124,35 @@ if __name__ == "__main__":
     run_name = wandb.run.name
     print('Applied Configuration:', CONFIG)
 
-    data = PatchAntennaDataset(cuts = CONFIG['cuts'])
-    train_data, test_data = train_test_data_split(data, TRAIN_TEST_RATIO = 0.7)
+    dataset_name = 'PatchAntennaDataset2'
+    if dataset_is_serialized(dataset_name):
+        dataset = load_serialized_dataset(dataset_name)
+    else:
+        dataset = PatchAntennaDataset2() # Large Dataset 
+        #dataset = PatchAntennaDataset1() # Small Dataset
+    
+    train_data, val_data = train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7)
+
+    pca_train_loader = DataLoader(train_data, batch_size=len(train_data),shuffle = True)
+    pca_val_loader = DataLoader(val_data,batch_size=len(val_data),shuffle=True)
+    pca_train_data = next(iter(pca_train_loader))
+    pca_val_data = next(iter(pca_val_loader))
 
     train_loader = DataLoader(train_data,batch_size=CONFIG['batch_size'],shuffle=True)
-    test_loader = DataLoader(test_data,batch_size=CONFIG['batch_size'],shuffle=True)
+    test_loader = DataLoader(val_data,batch_size=CONFIG['batch_size'],shuffle=True)
 
 
-    decoder_model = PatchAntenna1ConvAutoEncoder(config = CONFIG)
-    decoder_model.to(device)
-    model = LatentSpaceNet()
+
+    decoder_model = PCA(n_components=CONFIG['latent_size'])
+    decoder_model.fit_transform(pca_train_data)
+    model = DirectFeedForwardNet2()
     model = model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
     criterion = nn.MSELoss()
 
 
-    final_model,best_model = latent_space_train(model = model,
+    final_model,best_model = train(model = model,
                 decoder = decoder_model,
                 CONFIG = CONFIG,
                 train_dataloader= train_loader,
