@@ -5,13 +5,13 @@ __pycache__/
 # Sphinx documentation
 docs/_build/
 
-# Jupyter notebook
+# Jupyter notebook checkpoints
 .ipynb_checkpoints
 
 #Weights and Biases Runs
 wandb/
 .vscode
-.pickle
+
 
 SumSapp.egg-info/
 dist/
@@ -19,3 +19,4 @@ build/
 ssapp.egg-info/
 JobScripts/
 data/processed/PatchAntennaDataset2.pickle
+data/processed/CircularHornDataset1.pickle

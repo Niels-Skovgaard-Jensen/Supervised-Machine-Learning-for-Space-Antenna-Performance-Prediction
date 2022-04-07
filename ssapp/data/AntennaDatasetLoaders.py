@@ -468,15 +468,14 @@ class CircularHorn1(Dataset):
 
     def __init__(self,cuts = 4000):
         self.cuts = cuts
-        self.flatten_output = flatten_output
         self.name = 'CircularHornDataset1'
 
         # Define data placement
         cut_dir, param_dir = get_raw_dataset_path(self.name)
         param_file = param_dir / 'lookup.log'
         
-        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=343-cuts,dtype = np.float32)
-        self.antenna_parameters = self.antenna_parameters.reshape(cuts,4)[:,1:4]
+        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=4000-cuts,dtype = np.float32)
+        self.antenna_parameters = self.antenna_parameters.reshape(cuts,3)[:,1:3]
 
         ## Kinda hardcoded fix, might want to automate it a little more
         file_to_open = cut_dir / '0.cut'
@@ -511,12 +510,8 @@ class CircularHorn1(Dataset):
             idx = idx.tolist()
         
         parameters = torch.tensor(self.antenna_parameters[idx,:])
-        
-        
-        if self.flatten_output:
-            field_val = self.field_cut[idx,:,:].flatten()
-        else:
-            field_val = self.field_cut[idx,:,:]
+
+        field_val = self.field_cut[idx,:,:]
 
             
         return parameters, field_val

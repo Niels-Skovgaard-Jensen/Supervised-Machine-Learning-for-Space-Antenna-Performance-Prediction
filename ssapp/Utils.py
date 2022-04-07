@@ -82,5 +82,19 @@ def genModelComparison(dataset: Dataset, benchmark_models: dict, test_metrics: d
     df = df.set_axis(list(test_metrics.keys()), axis=0)
     return df
 
+def lazy_genModelComparison(dataset):
+    benchmark_models = {'Gaus. Proc.':GaussianProcessRegressor(),
+                    'std_GP': Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]),
+                    'Linear Reg.':LinearRegression()}
+
+    test_metrics = {'Mean Squared':metrics.mean_squared_error,
+                    'Max Error': metrics.max_error,
+                    'Explained Variance': metrics.explained_variance_score,
+                    'Relative RMSE': relRMSE,}
+
+
+
+    df = genModelComparison(dataset, benchmark_models= benchmark_models, test_metrics=test_metrics, train_test_ratio=0.7)
+
 
 
