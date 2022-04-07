@@ -1,0 +1,38 @@
+{
+  "output": {
+    "path": "results",
+    "structure": {
+      ".cut": "cut_files"
+    }
+  },
+  "variables": [
+    {
+      "name": "eps_r",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0, "stop": 0, "num": 1 }
+      },
+      "bounds": [-0.5, 1.5]
+    },
+    {
+      "name": "loss_t",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0, "stop": 0, "num": 1 }
+      },
+      "bounds": [0.0, 0.4]
+    }
+  ],
+  "sampling_plan": {
+    "method": "LHC",
+    "kwargs": { "num_points": 4000 }
+  },
+  "command": [
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT pattern_cut set ( file_name : {cut_files}, class : pattern_cut)",
+    "COMMAND OBJECT pattern_cut get_field ( source : sequence(ref(radiating_horn)))"
+  ]
+}

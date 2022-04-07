@@ -1,0 +1,354 @@
+ <OutputFiles>
+  <File Path="/home/sa/Documents/ML_horn_case/ML_horn_case.tci" Type="tci" Format="Text" Object="unknown" SubObject="unknown"/>
+  <File Path="ML_horn_case.log" Type="log" Format="Text" Object="unknown" SubObject="unknown"/>
+  <File Path="ML_horn_case.out" Type="out" Format="Text" Object="unknown" SubObject="unknown"/>
+  <File Path="/home/sa/Documents/ML_horn_case/ML_horn_case.tor" Type="tor" Format="Text" Object="unknown" SubObject="unknown"/>
+  <File Path="horn_interior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/0.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/1.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/2.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/3.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/4.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/5.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/6.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/7.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/8.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/9.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/10.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/11.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/12.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/13.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/14.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/15.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/16.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/17.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn_exterior.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="horn.bin" Type="Currents:Standard" Format="Bin" Object="unknown" SubObject="unknown">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/18.cut" Type="Cut:Spherical" Format="Ticra" Object="pattern_cut" SubObject="unknown" Quantity="E">
+    <Parameter Name="Frequency" Values="[42.5000000000000;42.5000000000000;1]" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[0.000000000000000E+000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+ </OutputFiles>
