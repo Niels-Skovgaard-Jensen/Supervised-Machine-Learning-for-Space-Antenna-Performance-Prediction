@@ -155,9 +155,88 @@ def plotInverseTransformStandardPCA(dataset,
 
 
 
+def plotGPvsPCADimensions(dataset, max_number_pca = 20):
+    from ssapp.Utils import train_test_data_split
+    from ssapp.data.Metrics import relRMSE
+    from sklearn.decomposition import PCA
+    from sklearn.gaussian_process import GaussianProcessRegressor
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
 
 
+    train_data, test_data = train_test_data_split(dataset)
 
-def plotEVERYTHING():
-    """Plots EVERYTHING"""
+    train_loader = DataLoader(train_data, batch_size = len(train_data))
+    test_loader = DataLoader(test_data,batch_size = len(test_data))
+
+    TRAIN_PARAMS,TRAIN_FIELDS = next(iter(train_loader))
+    TEST_PARAMS,TEST_FIELDS = next(iter(test_loader))
+
+
+    Number_PCAs = []
+
+    sweep_info = {
+            'PCR Train Rec. Loss': [],
+            'PCR Validation Rec. Loss': [],
+            'GP Train Latent Loss': [],
+            'GP Validation Latent Loss': [],
+            'GP-PCA Train Rec. Loss': [],
+            'GP-PCA Validation Rec. Loss': [],
+            'LR-PCA Train Rec. Loss': [],
+            'LR-PCA Validation Rec. Loss': [],
+            '2D AE Train Rec. Loss': [],
+            '2D AE Validation Rec. Loss' : [],
+            'GP-AE Train Rec. Loss': [],
+            'GP-AE Validation Rec. Loss': []
+            }
+
+    # Make direct prediction baseline
+
+    gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS,TRAIN_FIELDS.reshape(len(TRAIN_FIELDS),-1))
+    train_baseline = relRMSE(TRAIN_FIELDS.flatten(), gpr.predict(TRAIN_PARAMS).flatten())
+    test_baseline = relRMSE(TEST_FIELDS.flatten(), gpr.predict(TEST_PARAMS).flatten())
+
+    # Now with varying size latent models
+
+    for num_pca in range(1,max_number_pca+1):
+
+        Number_PCAs.append(num_pca)
+        pca = PCA(n_components=num_pca)
+        pca_train = pca.fit_transform(TRAIN_FIELDS.reshape((len(train_data),-1)))
+        pca_val = pca.transform(TEST_FIELDS.reshape((len(TEST_FIELDS),-1)))
+        PCA_TRAIN_RECONSTRUCTED_FIELD = pca.inverse_transform(pca_train).reshape(len(TRAIN_FIELDS),361,3,4)
+        PCA_TEST_RECONSTRUCTED_FIELD = pca.inverse_transform(pca_val).reshape(len(TEST_FIELDS),361,3,4)
+
+        gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS, pca_train)
+        #gpr = GaussianProcessRegressor().fit(TRAIN_PARAMS, pca_train)
+
+        sweep_info['GP Train Latent Loss'].append(relRMSE(gpr.predict(TRAIN_PARAMS), pca_train))
+        sweep_info['GP Validation Latent Loss'].append(relRMSE(gpr.predict(TEST_PARAMS),pca_val))
+
+        sweep_info['PCR Train Rec. Loss'].append(relRMSE(TRAIN_FIELDS.flatten(), PCA_TRAIN_RECONSTRUCTED_FIELD.flatten()))
+        sweep_info['PCR Validation Rec. Loss'].append(relRMSE(TEST_FIELDS.flatten(), PCA_TEST_RECONSTRUCTED_FIELD.flatten()))
+
+        ## Loss in reconstruction
+        GPR_TRAIN_RECONSTRUCTED_FIELD = pca.inverse_transform(gpr.predict(TRAIN_PARAMS)).reshape(len(TRAIN_PARAMS),361,3,4)
+        GPR_TEST_RECONSTRUCTED_FIELD = pca.inverse_transform(gpr.predict(TEST_PARAMS)).reshape(len(TEST_PARAMS),361,3,4)
+
+        sweep_info['GP-PCA Train Rec. Loss'].append(relRMSE(TRAIN_FIELDS.flatten(), GPR_TRAIN_RECONSTRUCTED_FIELD.flatten()))
+
+        sweep_info['GP-PCA Validation Rec. Loss'].append(relRMSE(TEST_FIELDS.flatten(), GPR_TEST_RECONSTRUCTED_FIELD.flatten()))
+
+
+    plt.figure(figsize = (8,4))
+    plt.semilogy(Number_PCAs,sweep_info['PCR Train Rec. Loss'],label ='PCR Train Rec. Loss' )
+    plt.semilogy(Number_PCAs,sweep_info['PCR Validation Rec. Loss'],label='PCR Validation Rec. Loss')
+    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Train Rec. Loss'],label = 'GP-PCA Train Rec. Loss')
+    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Validation Rec. Loss'],label = 'GP-PCA Validation Rec. Loss')
+    plt.axhline(train_baseline,label = 'GP Baseline Train Ref. Loss',linestyle = '--',linewidth = 1,c = 'green')
+    plt.axhline(test_baseline,label = 'GP Baseline Validation Rec. Loss',linestyle = '--',linewidth = 1,c = 'red')
+    plt.xlim(1,num_pca)
+    plt.xticks([x for x in range(1,max_number_pca+1)])
+    plt.legend()
+    plt.xlabel('Latent Space Dimensions')
+    plt.ylabel('relRMSE Reconstruction Loss')
+    plt.title('PCA and Latent-Regression Reconstruction Loss')
+    plt.grid(True)
 

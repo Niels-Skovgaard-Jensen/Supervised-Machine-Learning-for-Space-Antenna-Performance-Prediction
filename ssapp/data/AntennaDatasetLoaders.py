@@ -464,7 +464,7 @@ class PatchAntennaDatasetComplex(PatchAntennaDataset):
             field_val = self.field_cut[idx,::]
             return parameters, field_val
 
-class CircularHorn1(Dataset):
+class CircularHornDataset1(Dataset):
 
     def __init__(self,cuts = 4000):
         self.cuts = cuts
@@ -515,3 +515,12 @@ class CircularHorn1(Dataset):
 
             
         return parameters, field_val
+
+def serialise_all_datasets():
+    datasets = [PatchAntennaDataset(),
+                PatchAntennaDataset2(),
+                ReflectorCutDataset(),
+                CircularHornDataset1()]
+
+    for dataset in datasets:
+        serialize_dataset(dataset)

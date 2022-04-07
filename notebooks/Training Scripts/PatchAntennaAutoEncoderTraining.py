@@ -12,7 +12,7 @@ import torch
 
 from ssapp.models.NeuralNetworkModels.Autoencoders import PatchAntenna1ConvAutoEncoder
 from ssapp.models.HelperFunctions import saveModel
-from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset
+from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset2
 from ssapp.Utils import train_test_data_split
 
 import wandb
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     run_name = wandb.run.name
     print('Applied Configuration:', CONFIG)
 
-    data = PatchAntennaDataset(cuts = CONFIG['cuts'])
+    data = PatchAntennaDataset2(cuts = CONFIG['cuts'])
     train_data, test_data = train_test_data_split(data, TRAIN_TEST_RATIO = 0.7)
 
     train_loader = DataLoader(train_data,batch_size=CONFIG['batch_size'],shuffle=True)
