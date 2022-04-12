@@ -1,5 +1,6 @@
 
 
+
 from IPython import display 
 from pathlib import Path
 from matplotlib import pyplot as plt
@@ -10,7 +11,7 @@ import torch.optim as optim
 import torch.nn as nn
 import torch
 
-from ssapp.models.NeuralNetworkModels.Autoencoders import PatchAntenna1ConvAutoEncoder
+from ssapp.models.NeuralNetworkModels.Autoencoders import ConvAutoEncoderAndLatentRegressor
 from ssapp.models.HelperFunctions import saveModel
 from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset2, load_serialized_dataset
 from ssapp.Utils import train_test_data_split
@@ -26,31 +27,45 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
     BATCH_SIZE = CONFIG['batch_size']
 
     best_val_loss = float("inf")
-    train_loss_array = []
-    validation_loss_array = []
-    scikit_loss = []
+    rec_train_loss_array = []
+    pred_train_loss_array = []
+    rec_val_loss_array = []
+    pred_val_loss_array = []
+
     for epoch in range(EPOCHS):
-        loss = 0
-        test_loss = 0
+        AE_rec_loss = 0 #Reconstruction Loss
+        param_rec_loss = 0 #Parameter to field prediction loss
+        para_latent_loss = 0 #Validation Loss
+
         for params, field in train_dataloader:
-        # reset the gradients back to zero
-        # PyTorch accumulates gradients on subsequent backward passes
+
             optimizer.zero_grad()
             field = field.float().to(device)
-            # compute reconstructions
-            train_outputs = model(field)
-                
+            params = params.float().to(device)
+            # compute reconstruction
+            reconstruction = model.autoencode_train(field)
             # compute training reconstruction loss
-            train_loss = criterion(train_outputs, field)
-            scikit_loss += relRMSE(train_outputs.detach().to('cpu').flatten(), field.detatch().to('cpu').flatten())
+            rec_loss = criterion(reconstruction, field)
             # compute accumulated gradients
-            train_loss.backward()
-                
+            rec_loss.backward()
             # perform parameter update based on current gradients
             optimizer.step()
+
+            # Train Parameter to Field model
+            optimizer.zero_grad()
+            
+            
+            
+            # 
+            field_pred = model(params)
+            # Compute training reconstruction loss
+            pred_loss = criterion(field_pred, field)
+            # Compute accumulated gradients
+            pred_loss.backward()
+
                 
             # add the mini-batch training loss to epoch loss
-            loss += train_loss.detach().item()
+            rec_loss += train_loss.detach().item()
 
         with torch.no_grad():
             for params,field in test_dataloader:
@@ -66,7 +81,7 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            model_to_save = model
+            model_best_val = model
 
         wandb.log({'loss':loss,
                     'val_loss':val_loss,
@@ -75,7 +90,7 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
         # display the epoch training loss
         print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, EPOCHS, loss,val_loss))
 
-    return model, model_to_save
+    return model, model_best_val
 
 if __name__ == "__main__":
     
@@ -91,7 +106,9 @@ if __name__ == "__main__":
     'coder_channel_1': 16,
     'coder_channel_2': 64}
 
-    wandb.init(config = DEFAULT_CONFIG,project="FarFieldAutoEncoder", entity="skoogy_dan")
+    project = "FarFieldAutoEncoder"
+
+    wandb.init(config = DEFAULT_CONFIG,project=project, entity="skoogy_dan")
     CONFIG = wandb.config
     run_name = wandb.run.name
     print('Applied Configuration:', CONFIG)
@@ -105,7 +122,7 @@ if __name__ == "__main__":
     scikit_val_dataloader = DataLoader(test_data,batch_size=len(test_data),shuffle=True)
 
 
-    model = PatchAntenna1ConvAutoEncoder(config = CONFIG)
+    model = ConvAutoEncoderAndLatentRegressor(config = CONFIG)
     model = model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
@@ -121,5 +138,5 @@ if __name__ == "__main__":
                 criterion=criterion)
     
 
-    saveModel(final_model, run_name)
+    saveModel(final_model, run_name, subfolder= project)
     saveModel(best_model, run_name + '_best_val')

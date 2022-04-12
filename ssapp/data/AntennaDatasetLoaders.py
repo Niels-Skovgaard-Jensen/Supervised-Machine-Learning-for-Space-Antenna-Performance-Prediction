@@ -523,4 +523,5 @@ def serialise_all_datasets():
                 CircularHornDataset1()]
 
     for dataset in datasets:
+        print(dataset)
         serialize_dataset(dataset)
