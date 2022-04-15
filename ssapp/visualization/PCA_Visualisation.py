@@ -153,6 +153,24 @@ def plotInverseTransformStandardPCA(dataset,
         ax.set_ylabel(ylabel)
 
 
+def plotPCAandGPreconstruction(train_dataset, test_dataset,pca : PCA(),gp, index = (None,None)):
+
+    assert field.shape == (1,361,3,4)
+
+    train_dataloader = Dataloader(train_dataset,batch_size = 1,shuffle = False)
+    test_dataloader = Dataloader(test_dataset,batch_size = 1,shuffle = False)
+
+    train_params, test_field  = next(iter(train_dataloader))
+    test_params, test_fields = next(iter(train_dataloader))
+
+    train_latent_pred = gp.predict(train_params)
+    test_latent_pred = gp.predict(test_params)
+
+    train_field_reconstruction = pca.inverse_transform(train_latent_pred)
+    test_field_reconstruction = pca.inverse_transform(test_latent_pred)
+
+    return True
+
 
 
 def plotGPvsPCADimensions(dataset, max_number_pca = 20):
