@@ -1,4 +1,3 @@
-from types import NoneType
 import torch
 from pathlib import Path
 

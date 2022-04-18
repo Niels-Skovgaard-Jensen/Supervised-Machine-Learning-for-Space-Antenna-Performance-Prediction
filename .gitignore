@@ -21,3 +21,4 @@ JobScripts/
 data/processed/PatchAntennaDataset1.pickle
 data/processed/PatchAntennaDataset2.pickle
 data/processed/CircularHornDataset1.pickle
+data/processed/ReflectorCutDataset.pickle

@@ -131,7 +131,7 @@ class ReflectorCutDataset(Dataset):
         """
         self.cuts = cuts
         self.flatten_output = flatten_output
-
+        self.name = 'ReflectorCutDataset'
         # Define data placement
         cut_dir, param_dir = get_raw_dataset_path('ReflectorAntennaSimpleDataset1')
         param_file = param_dir / 'lookup.log'
@@ -186,6 +186,7 @@ class ReflectorCutDataset2(Dataset):
         """
         self.cuts = cuts
         self.flatten_output = flatten_output
+        self.name = 'ReflectorCutDataset2'
 
         # Define data placement
         cut_dir, param_dir = get_raw_dataset_path('ReflectorAntennaSimpleDataset2')
