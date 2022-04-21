@@ -76,7 +76,7 @@ def plotInverseTransformStandardPCA(dataset,
                                     component = 'co',
                                     transform = lambda a,b : 20*np.log10(a**2+b**2),
                                     ylabel = 'dB',
-                                    pca_components = [0,1],
+                                    pca_components = [1,2],
                                     plot_deviation_from_mean = False,
                                     polar_coordiantes = True):
 
@@ -103,6 +103,7 @@ def plotInverseTransformStandardPCA(dataset,
     X = np.linspace(latent_mean[0]-num_std_dev*latent_std_dev[0],latent_mean[0]+num_std_dev*latent_std_dev[0],num_cols)
     Y = np.linspace(latent_mean[1]-num_std_dev*latent_std_dev[1],latent_mean[1]+num_std_dev*latent_std_dev[1],num_rows)
     X,Y = np.meshgrid(X,Y)
+    
     theta = np.linspace(-180,180,len(fields[0,:,0,0]))
 
     fig = plt.figure(figsize = (8,9.5),constrained_layout=True)
@@ -132,7 +133,7 @@ def plotInverseTransformStandardPCA(dataset,
         for i,phi in enumerate(list(phi_cut)):
             if component == 'co':
                 plot_field = transform(pred[0,:,phi,0],pred[0,:,phi,1])
-            else:
+            elif component == 'cross':
                 plot_field = transform(pred[0,:,phi,2],pred[0,:,phi,3])
             ax.plot(theta,plot_field)
             temp_min = min(temp_min,min(plot_field))
@@ -153,24 +154,47 @@ def plotInverseTransformStandardPCA(dataset,
         ax.set_ylabel(ylabel)
 
 
-def plotPCAandGPreconstruction(train_dataset, test_dataset,pca : PCA(),gp, index = (None,None)):
+def plotFieldComparison(X_field,
+                        Y_field,
+                        idx = 0,
+                        component = 'co',
+                        phis = [0],
+                        transform = lambda a,b : 20*np.log10(a**2+b**2),
+                        title = 'Field Prediction and Truth'):
 
-    assert field.shape == (1,361,3,4)
+    assert component == 'co' or component == 'cross'
+    assert len(X_field) == len(Y_field)
 
-    train_dataloader = Dataloader(train_dataset,batch_size = 1,shuffle = False)
-    test_dataloader = Dataloader(test_dataset,batch_size = 1,shuffle = False)
+    if component == 'co':
+        X_plot_field = transform(X_field[idx,:,phis,0],X_field[idx,:,phis,1])
+        Y_plot_field = transform(Y_field[idx,:,phis,0],Y_field[idx,:,phis,1])
+    elif component == 'cross':
+        X_plot_field = transform(X_field[idx,:,phis,2],X_field[idx,:,phis,3])
+        Y_plot_field = transform(Y_field[idx,:,phis,2],Y_field[idx,:,phis,3])
 
-    train_params, test_field  = next(iter(train_dataloader))
-    test_params, test_fields = next(iter(train_dataloader))
+    thetas = np.linspace(-180,180,361)
 
-    train_latent_pred = gp.predict(train_params)
-    test_latent_pred = gp.predict(test_params)
+    
+    plt.figure()
+    plt.title(title)
+    plt.plot(thetas,X_plot_field)
+    plt.plot(thetas,Y_plot_field)
+    plt.xlabel(r'$\theta\degree$')
+    plt.ylabel('dB')
 
-    train_field_reconstruction = pca.inverse_transform(train_latent_pred)
-    test_field_reconstruction = pca.inverse_transform(test_latent_pred)
+def closestIdxFromParams(params):
 
-    return True
+    def find_nearest(array, value):
+        array = np.asarray(array)
+        idx = (np.abs(array - value)).argmin()
+        return idx
 
+    dataloader = DataLoader(dataset,batch_size = len(dataset))
+    params, fields = next(iter(dataloader))
+
+    assert len(params) == len(params)
+    
+    return find_nearest()
 
 
 def plotGPvsPCADimensions(dataset, max_number_pca = 20):
@@ -243,13 +267,16 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
         sweep_info['GP-PCA Validation Rec. Loss'].append(relRMSE(TEST_FIELDS.flatten(), GPR_TEST_RECONSTRUCTED_FIELD.flatten()))
 
 
+    MEDIUM_LINEWIDTH = 2
+    SMALL_LINEWIDTH = 1
+
     plt.figure(figsize = (8,4))
-    plt.semilogy(Number_PCAs,sweep_info['PCR Train Rec. Loss'],label ='PCR Train Rec. Loss' )
-    plt.semilogy(Number_PCAs,sweep_info['PCR Validation Rec. Loss'],label='PCR Validation Rec. Loss')
-    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Train Rec. Loss'],label = 'GP-PCA Train Rec. Loss')
-    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Validation Rec. Loss'],label = 'GP-PCA Validation Rec. Loss')
-    plt.axhline(train_baseline,label = 'GP Baseline Train Ref. Loss',linestyle = '--',linewidth = 1,c = 'green')
-    plt.axhline(test_baseline,label = 'GP Baseline Validation Rec. Loss',linestyle = '--',linewidth = 1,c = 'red')
+    plt.semilogy(Number_PCAs,sweep_info['PCR Train Rec. Loss'],label ='PCR Train Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.semilogy(Number_PCAs,sweep_info['PCR Validation Rec. Loss'],label='PCR Validation Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Train Rec. Loss'],label = 'GP-PCA Train Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.semilogy(Number_PCAs,sweep_info['GP-PCA Validation Rec. Loss'],label = 'GP-PCA Validation Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.axhline(train_baseline,label = 'GP Baseline Train Rec. Loss',linestyle = '--',c = 'green',linewidth = SMALL_LINEWIDTH)
+    plt.axhline(test_baseline,label = 'GP Baseline Validation Rec. Loss',linestyle = '--',c = 'red',linewidth = SMALL_LINEWIDTH)
     plt.xlim(1,num_pca)
     plt.xticks([x for x in range(1,max_number_pca+1)])
     plt.legend()
