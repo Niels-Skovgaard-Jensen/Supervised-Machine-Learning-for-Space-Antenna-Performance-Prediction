@@ -17,6 +17,7 @@ from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset2, load_serializ
 from ssapp.Utils import train_test_data_split
 from ssapp.data.Metrics import relRMSE
 
+
 import wandb
 print('Running')
 torch.manual_seed(42)
@@ -31,6 +32,8 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
     pred_train_loss_array = []
     rec_val_loss_array = []
     pred_val_loss_array = []
+
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=200, gamma=0.5)
 
     for epoch in range(EPOCHS):
         
@@ -94,18 +97,19 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
                 running_pred_loss += len(params)*pred_loss.detach().item()
                 running_num += len(params)
                 
+        #scheduler.step()
         
         rec_val_loss = running_rec_loss/running_num
         pred_val_loss = running_pred_loss/running_num
 
-        if pred_val_loss < best_val_loss:
-            best_val_loss = pred_val_loss
+        if rec_val_loss < best_val_loss:
+            best_val_loss = rec_val_loss
             model_best_val = model
 
         wandb.log({'pred_loss':pred_loss,
                     'pred_val_loss':pred_val_loss,
                     'rec_loss': rec_loss,
-                    'red_val_loss': rec_val_loss,
+                    'rec_val_loss': rec_val_loss,
                     'best_val_loss':best_val_loss})
 
         # display the epoch training loss
@@ -120,20 +124,21 @@ if __name__ == "__main__":
     print('Device:',device)
 
     DEFAULT_CONFIG = {
-    "learning_rate": 4e-4,
-    "epochs": 200,
-    "batch_size": 1,
+    "learning_rate": 3e-4,
+    "epochs": 4000,
+    "batch_size": 8,
     "latent_size": 5,
     "random_seed" : 42,
     'coder_channel_1': 16,
     'coder_channel_2': 32,
     'Parameter Number': 3}
 
-    project = "FarFieldAutoEncoder"
+    project = "LatentSpaceRegression"
 
     wandb.init(config = DEFAULT_CONFIG,project=project, entity="skoogy_dan")
     CONFIG = wandb.config
-    run_name = wandb.run.name
+    run_name = str(wandb.run.name)
+    print(run_name)
     print('Applied Configuration:', CONFIG)
 
     data = load_serialized_dataset('PatchAntennaDataset2')
@@ -158,4 +163,4 @@ if __name__ == "__main__":
     
 
     saveModel(final_model, run_name, subfolder= project)
-    saveModel(best_model, run_name + '_best_val')
+    saveModel(best_model, run_name + '_best_val', subfolder= project)

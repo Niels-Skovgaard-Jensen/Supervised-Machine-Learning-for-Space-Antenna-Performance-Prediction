@@ -75,10 +75,10 @@ class PatchAntenna1ConvAutoEncoder(nn.Module):
         return output
 
 
-class PatchAntenna1ConvVAE(nn.Module):
+class VAE1(nn.Module):
 
     def __init__(self, Latent_size = 10):
-        super(PatchAntenna1ConvVAE, self).__init__()
+        super(VAE1, self).__init__()
 
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
@@ -174,6 +174,11 @@ class ConvAutoEncoderAndLatentRegressor(nn.Module):
         PADDING_2 = (0,0)
 
         self.batch_size = 4
+
+
+        self.batch_norm_1 = nn.BatchNorm2d(4)
+        self.batch_norm_2 = nn.BatchNorm2d(coder_channel_1)
+        self.batch_norm_3 = nn.BatchNorm2d(coder_channel_2)
         
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
@@ -258,3 +263,29 @@ class ConvAutoEncoderAndLatentRegressor(nn.Module):
 
         return output
             
+
+class GP_VAE(nn.Module):
+
+    def __init__(self, config = {'latent_size': 20,
+                                'coder_channel_1': 16,
+                                'coder_channel_2': 32,
+                                'Parameter Number': 3}):
+        super(GP_VAE, self).__init__()
+
+
+
+    def forward():
+        pass
+
+    def fit_GP():
+        pass
+
+    def encode():
+        pass
+
+    def decode():
+        pass
+    
+    def train_autoencoder():
+        pass
+

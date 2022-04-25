@@ -10,21 +10,21 @@ def getSaveModeldir():
     return models_dir
 
 def saveModel(model,name, subfolder = None):
-    assert type(model) == type(str())
     assert type(name) == type(str())
     assert type(subfolder) == type(str()) or type(subfolder) == type(None)
 
+    name = name +'.pt'
     models_dir = getSaveModeldir()
     if type(subfolder) is type(str()):
         PATH = models_dir / subfolder / name
     else:
         PATH = models_dir / name
         
-    torch.save(model, PATH+'.pt')
+    torch.save(model.state_dict(), PATH)
 
     return True
 
-def loadModel(name, subfolder = None):
+def loadModel(model,name, subfolder = None):
     assert type(subfolder) == type(str())
     assert type(name) == type(str())
 
@@ -32,10 +32,11 @@ def loadModel(name, subfolder = None):
     if subfolder is None:
         PATH = models_dir / name
     else:
-        models_dir / subfolder / name
+        PATH = models_dir / subfolder / name
+    print(PATH)
     if torch.cuda.is_available():
-        model = torch.load(PATH,map_location=torch.device('cuda:0'))
+        model.load_state_dict(torch.load(PATH,map_location=torch.device('cuda:0')))
     else:
-        model = torch.load(PATH,map_location=torch.device('cpu'))
+        model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
     return model
 
