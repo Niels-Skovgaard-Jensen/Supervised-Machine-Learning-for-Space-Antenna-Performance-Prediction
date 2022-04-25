@@ -59,6 +59,63 @@ def plotPCAVariance(dataset,num_components = 10, dataset_name = None):
     plt.title(dataset.name+' Variance Explained by Prinicipal Components')
 
 
+def plot3DPCA(dataset, pca_components = (1,2,3),param = 0,dataset_name = None,view_init=(55,0)):
+    assert len(pca_components) == 3
+    assert [x > 0 for x in pca_components]
+    pca_components = [x-1 for x in pca_components] # Switch to zero-index
+    num_samples = len(dataset)
+    
+    dataloader = DataLoader(dataset,batch_size=num_samples)
+    params, fields  = next(iter(dataloader))
+
+    pca = sklearn.decomposition.PCA(n_components = max(pca_components)+1)
+
+    pca_results = pca.fit_transform(fields.reshape(num_samples,-1))[:,list(pca_components)]
+    
+    p1,p2,p3 = pca_components
+
+    fig = plt.figure(figsize = (8,8))
+    ax = fig.add_subplot(projection='3d')
+    #ax.view_init(view_init[0],view_init[1])
+
+    ax.scatter(pca_results[:,p1],pca_results[:,p2],pca_results[:,p3],c = params[:,param],cmap = 'plasma',depthshade=True)
+
+def plot3DContour(dataset, 
+                pca_components = (1,2,3),
+                param = 0,
+                dataset_name = None,
+                view_init=(55,0),
+                proj_scalers = (2.5,2.5,2.5)):
+    assert len(pca_components) == 3
+
+    pca_components = [x-1 for x in pca_components] # Switch to zero-index
+    num_samples = len(dataset)
+
+    size = 10
+    
+    dataloader = DataLoader(dataset,batch_size=num_samples)
+    params, fields  = next(iter(dataloader))
+
+    pca = sklearn.decomposition.PCA(n_components = max(pca_components)+1)
+
+    pca_results = pca.fit_transform(fields.reshape(num_samples,-1))[:,list(pca_components)]
+    
+    p1,p2,p3 = pca_components
+
+
+    X,Y,Z = (pca_results[:,p1],pca_results[:,p2],pca_results[:,p3])
+
+    X_max,Y_max,Z_max = (min(X),max(Y),min(Z))
+
+    fig = plt.figure(figsize = (8,8))
+    ax = fig.add_subplot(projection='3d')
+    ax.scatter(X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+
+
+    cset = ax.scatter(np.ones_like(X)*X_max*proj_scalers[0], Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+
+    cset = ax.scatter(X, np.ones_like(Y)*Y_max*proj_scalers[1], Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+    cset = ax.scatter(X, Y, np.ones_like(Z)*Z_max*proj_scalers[2],c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
 
 def pltAspectRatio(x):
@@ -154,8 +211,8 @@ def plotInverseTransformStandardPCA(dataset,
         ax.set_ylabel(ylabel)
 
 
-def plotFieldComparison(X_field,
-                        Y_field,
+def plotFieldComparison(Y_pred,
+                        Y_truth,
                         idx = 0,
                         component = 'co',
                         phis = [0],
@@ -163,17 +220,16 @@ def plotFieldComparison(X_field,
                         title = 'Field Prediction and Truth'):
 
     assert component == 'co' or component == 'cross'
-    assert len(X_field) == len(Y_field)
+    assert len(Y_pred) == len(Y_truth)
 
     if component == 'co':
-        X_plot_field = transform(X_field[idx,:,phis,0],X_field[idx,:,phis,1])
-        Y_plot_field = transform(Y_field[idx,:,phis,0],Y_field[idx,:,phis,1])
+        X_plot_field = transform(Y_pred[idx,:,phis,0],Y_pred[idx,:,phis,1])
+        Y_plot_field = transform(Y_truth[idx,:,phis,0],Y_truth[idx,:,phis,1])
     elif component == 'cross':
-        X_plot_field = transform(X_field[idx,:,phis,2],X_field[idx,:,phis,3])
-        Y_plot_field = transform(Y_field[idx,:,phis,2],Y_field[idx,:,phis,3])
+        X_plot_field = transform(Y_pred[idx,:,phis,2],Y_pred[idx,:,phis,3])
+        Y_plot_field = transform(Y_truth[idx,:,phis,2],Y_truth[idx,:,phis,3])
 
     thetas = np.linspace(-180,180,361)
-
     
     plt.figure()
     plt.title(title)
