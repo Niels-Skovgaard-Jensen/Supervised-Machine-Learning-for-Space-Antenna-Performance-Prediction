@@ -59,7 +59,12 @@ def plotPCAVariance(dataset,num_components = 10, dataset_name = None):
     plt.title(dataset.name+' Variance Explained by Prinicipal Components')
 
 
-def plot3DPCA(dataset, pca_components = (1,2,3),param = 0,dataset_name = None,view_init=(55,0)):
+def plot3DPCA(dataset, 
+                pca_components = (1,2,3),
+                param = 0,
+                dataset_name = None,
+                view_init=(55,0),
+                figsize = (8,8)):
     assert len(pca_components) == 3
     assert [x > 0 for x in pca_components]
     pca_components = [x-1 for x in pca_components] # Switch to zero-index
@@ -74,11 +79,14 @@ def plot3DPCA(dataset, pca_components = (1,2,3),param = 0,dataset_name = None,vi
     
     p1,p2,p3 = pca_components
 
-    fig = plt.figure(figsize = (8,8))
+    fig = plt.figure(figsize = figsize)
     ax = fig.add_subplot(projection='3d')
     #ax.view_init(view_init[0],view_init[1])
 
     ax.scatter(pca_results[:,p1],pca_results[:,p2],pca_results[:,p3],c = params[:,param],cmap = 'plasma',depthshade=True)
+    
+
+
 
 def plot3DContour(dataset, 
                 pca_components = (1,2,3),
@@ -87,23 +95,25 @@ def plot3DContour(dataset,
                 view_init=(55,0),
                 proj_scalers = (2.5,2.5,2.5)):
     assert len(pca_components) == 3
-
+    dataset_name = dataset.name
     pca_components = [x-1 for x in pca_components] # Switch to zero-index
     num_samples = len(dataset)
-
+    sns.set_theme(style="whitegrid")
     size = 10
     
+    p1,p2,p3 = pca_components
+
     dataloader = DataLoader(dataset,batch_size=num_samples)
     params, fields  = next(iter(dataloader))
 
     pca = sklearn.decomposition.PCA(n_components = max(pca_components)+1)
 
-    pca_results = pca.fit_transform(fields.reshape(num_samples,-1))[:,list(pca_components)]
+    pca_results = pca.fit_transform(fields.reshape(num_samples,-1))[:,pca_components]
     
-    p1,p2,p3 = pca_components
+    
 
 
-    X,Y,Z = (pca_results[:,p1],pca_results[:,p2],pca_results[:,p3])
+    X,Y,Z = (pca_results[:,0],pca_results[:,1],pca_results[:,2])
 
     X_max,Y_max,Z_max = (min(X),max(Y),min(Z))
 
@@ -111,11 +121,15 @@ def plot3DContour(dataset,
     ax = fig.add_subplot(projection='3d')
     ax.scatter(X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
+    fig.suptitle('3D point cloud of '+dataset_name+' unto 3 main principle components')
+    cset = ax.scatter(np.ones_like(X)*X_max*proj_scalers[0]-0.01*X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
-    cset = ax.scatter(np.ones_like(X)*X_max*proj_scalers[0], Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
-
-    cset = ax.scatter(X, np.ones_like(Y)*Y_max*proj_scalers[1], Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
-    cset = ax.scatter(X, Y, np.ones_like(Z)*Z_max*proj_scalers[2],c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+    cset = ax.scatter(X, np.ones_like(Y)*Y_max*proj_scalers[1]-0.01*Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+    cset = ax.scatter(X, Y, np.ones_like(Z)*Z_max*proj_scalers[2]-0.01*Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
+    ax.set_xlabel('PCA'+str(pca_components[0]+1))
+    ax.set_ylabel('PCA'+str(pca_components[1]+1))
+    ax.set_zlabel('PCA'+str(pca_components[2]+1))
+    
 
 
 def pltAspectRatio(x):
@@ -229,16 +243,22 @@ def plotFieldComparison(Y_pred,
         X_plot_field = transform(Y_pred[idx,:,phis,2],Y_pred[idx,:,phis,3])
         Y_plot_field = transform(Y_truth[idx,:,phis,2],Y_truth[idx,:,phis,3])
 
-    thetas = np.linspace(-180,180,361)
-    
+    thetas =  np.array([np.linspace(-180,180,361) for x in phis]).T
+    print(thetas.shape)
     plt.figure()
     plt.title(title)
-    plt.plot(thetas,X_plot_field)
-    plt.plot(thetas,Y_plot_field)
+    plt.plot(thetas,X_plot_field,label='Pred.')
+    plt.plot(thetas,Y_plot_field.T,label='Truth') # WHY DO I NEED THE TRANSPOSE????
+    plt.legend()
     plt.xlabel(r'$\theta\degree$')
-    plt.ylabel('dB')
 
-def closestIdxFromParams(params):
+    
+    if component == 'co':
+        plt.ylabel('$|E_{co}|$ dB')
+    else:
+        plt.ylabel('$|E_{cross}|$ dB')
+
+def closestIdxFromParams(dataset,params):
 
     def find_nearest(array, value):
         array = np.asarray(array)
