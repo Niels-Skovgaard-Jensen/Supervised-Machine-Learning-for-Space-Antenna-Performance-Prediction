@@ -32,9 +32,9 @@ def get_raw_dataset_path(dataset_name: str):
 
     return cut_dir, log_dir
 
-def get_processed_dataset_path(dataset_name: str):
+def get_processed_dataset_path(dataset_name: str,ekstra_back_steps = 0):
 
-    main_dir = Path().cwd().parents[1]
+    main_dir = Path().cwd().parents[1+ekstra_back_steps]
     data_dir = main_dir / 'data'
     subdict_dir = data_dir / 'processed'
     file_dir = subdict_dir / (dataset_name+'.pickle')
@@ -63,9 +63,9 @@ def dataset_is_serialized(dataset_name: str):
         return True
     return False
 
-def load_serialized_dataset(dataset_name: str):
+def load_serialized_dataset(dataset_name: str,extra_back_steps = 0):
 
-    load_dir = get_processed_dataset_path(dataset_name)
+    load_dir = get_processed_dataset_path(dataset_name,extra_back_steps)
     with open(load_dir,'rb') as f:
         dataset = pickle.load(f)
         f.close()

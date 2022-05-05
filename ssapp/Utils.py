@@ -5,11 +5,12 @@ from torch.utils.data.dataloader import DataLoader
 from matplotlib import pyplot as plt
 
 
-def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7):
+def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
 
     train_len = int(len(dataset)*TRAIN_TEST_RATIO)
     train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len])    
     return train_set, test_set
+
 
 def save_eps_figure(filename, subfolder = None, format = 'eps'):
     
