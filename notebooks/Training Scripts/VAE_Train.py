@@ -1,164 +1,102 @@
 
-
-from IPython import display 
-from pathlib import Path
-from matplotlib import pyplot as plt
-import pylab as pl
-
+from ssapp.models.NeuralNetworkModels.variational_autoencoder import VAE
+from ssapp.data.AntennaDatasetLoaders import load_serialized_dataset
+from ssapp.Utils import train_test_data_split
 from torch.utils.data.dataloader import DataLoader
+from ssapp.data.Metrics import relRMSE_pytorch
+from ssapp.models.HelperFunctions import saveModel
 import torch.optim as optim
 import torch.nn as nn
 import torch
 
-from ssapp.models.NeuralNetworkModels.Autoencoders import ConvAutoEncoderAndLatentRegressor
-from ssapp.models.HelperFunctions import saveModel
-from ssapp.data.AntennaDatasetLoaders import  load_serialized_dataset,set_global_random_seed
-from ssapp.models.NeuralNetworkModels.variational_autoencoder import VAE
-from ssapp.Utils import train_test_data_split
+from matplotlib import pyplot as plt
 
 
-import wandb
-print('Running')
-set_global_random_seed(42)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print('Device',device)
 
-def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader, optimizer,criterion):
 
-    EPOCHS = CONFIG['epochs']
-    BATCH_SIZE = CONFIG['batch_size']
+#dataset = load_serialized_dataset('PatchAntennaDataset2',extra_back_steps=0)
+train_dataset = load_serialized_dataset('CircularHornDataset1_Train',extra_back_steps=0)
+val_dataset = load_serialized_dataset('CircularHornDataset1_Val',extra_back_steps=0)
 
-    best_val_loss = float("inf")
-    rec_train_loss_array = []
-    pred_train_loss_array = []
-    rec_val_loss_array = []
-    pred_val_loss_array = []
+train_len = len(train_dataset)
+val_len = len(val_dataset)
+config = {'latent_size': 5,
+            'coder_channel_1': 32,
+            'coder_channel_2': 128,
+            'batch_size' : 32}
 
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=200, gamma=0.5)
+train_dataloader = DataLoader(train_dataset,batch_size=config['batch_size'])
+val_dataloader = DataLoader(val_dataset,batch_size=config['batch_size'])
 
-    for epoch in range(EPOCHS):
+model = VAE(config)
+model.to(device)
+model.double()
+
+optimizer = optim.Adam(model.parameters(), lr=3e-4)
+criterion = relRMSE_pytorch
+
+BETA_REC = 1   # Loss multiplication factor for reconstruction loss
+BETA_KL = 1e-5 # -||- for KL divergence loss
+BETA_SMOOTH = 1e-9
+
+best_val_loss = float("inf")
+EPOCHS=500
+for epoch in range(EPOCHS):
+    train_epoch_loss, train_epoch_rec_loss, train_epoch_kl_loss = (0,0,0)
+
+    train_epoch_smooth_loss = 0
+    for train_params, train_fields in train_dataloader:
+        batch_size = len(train_fields)
+
+        train_fields= train_fields.to(device)
+
+        optimizer.zero_grad()
+        reconstruction = model(train_fields)
+        rec_loss = criterion(reconstruction, train_fields)
         
-        running_rec_loss = 0
-        running_pred_loss = 0 
-        running_num = 0
-        for params, field in train_dataloader:
+        
+        smooth_loss = torch.abs(torch.diff(reconstruction, dim = 1)).sum(dim=1).sum()
 
-            optimizer.zero_grad()
-            field = field.float().to(device)
-            params = params.float().to(device)
-            # compute reconstruction
-            reconstruction = model.autoencode_train(field)
-            # compute training reconstruction loss
-            rec_loss = criterion(reconstruction, field)
-            running_rec_loss += len(params)*rec_loss.detach().item()
-            # backpropagate
-            rec_loss.backward()
-            # perform parameter update based on current gradients
-            optimizer.step()
+        rec_loss = rec_loss
 
-            # Train Parameter to Field model
-            optimizer.zero_grad()
+        loss = rec_loss*BETA_REC +model.kl*BETA_KL+smooth_loss*BETA_SMOOTH
+        loss.backward()
+        
+        train_epoch_smooth_loss += (smooth_loss/train_len)*batch_size
+        train_epoch_rec_loss += (rec_loss/train_len)*batch_size
+        train_epoch_kl_loss += (model.kl/train_len)*batch_size
+        train_epoch_loss += (loss/train_len)*batch_size
+
+        optimizer.step()
+    
+    
+
+    val_epoch_loss, val_epoch_rec_loss, val_epoch_kl_loss = (0,0,0)
+    with torch.no_grad():
+        
+        for test_params, test_fields in val_dataloader:
+            batch_size = len(test_fields)
+
+            test_fields = test_fields.to(device)
             
-            # Field prediction from parameters
-            field_pred = model(params)
-            # Compute training field prediction loss
-            pred_loss = criterion(field_pred, field)
-            # Backpropagation
-            pred_loss.backward()
-                
-            # add the mini-batch training loss to epoch loss
-            running_pred_loss += len(params)*pred_loss.detach().item()
-            running_num += len(params)
+            reconstruction = model(test_fields)
+            rec_loss = criterion(reconstruction, test_fields)
+
+            rec_loss = rec_loss
+            loss = rec_loss*BETA_REC +model.kl*BETA_KL
+
+            val_epoch_rec_loss += (rec_loss/val_len)*batch_size
+            val_epoch_kl_loss += (model.kl/val_len)*batch_size
+            val_epoch_loss += (loss/val_len)*batch_size
 
 
-        rec_loss = running_rec_loss/running_num
-        pred_loss = running_pred_loss/running_num
-
-        running_rec_loss = 0
-        running_pred_loss = 0 
-        running_num = 0
-        with torch.no_grad():
-            for params,field in test_dataloader:
-
-                optimizer.zero_grad()
-                field = field.float().to(device)
-                params = params.float().to(device)
-                # compute reconstruction
-                reconstruction = model.autoencode_train(field)
-                # compute training reconstruction loss
-                rec_loss = criterion(reconstruction, field)
-                running_rec_loss += len(params)*rec_loss.detach().item()
-                
-                # Field prediction from parameters
-                field_pred = model(params)
-                # Compute training field prediction loss
-                pred_loss = criterion(field_pred, field)
-                    
-                # add the mini-batch training loss to epoch loss
-                running_pred_loss += len(params)*pred_loss.detach().item()
-                running_num += len(params)
-                
-        #scheduler.step()
-        
-        rec_val_loss = running_rec_loss/running_num
-        pred_val_loss = running_pred_loss/running_num
-
-        if rec_val_loss < best_val_loss:
-            best_val_loss = rec_val_loss
-            model_best_val = model
-
-        wandb.log({'pred_loss':pred_loss,
-                    'pred_val_loss':pred_val_loss,
-                    'rec_loss': rec_loss,
-                    'rec_val_loss': rec_val_loss,
-                    'best_val_loss':best_val_loss})
-
-        # display the epoch training loss
-        print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, EPOCHS, rec_loss,rec_val_loss))
-        print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, EPOCHS, pred_loss,pred_val_loss))
-
-    return model, model_best_val
-
-if __name__ == "__main__":
     
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    print('Device:',device)
+    if val_epoch_loss < best_val_loss:
+        best_val_loss = val_epoch_loss
+        saveModel(model=model,name = 'VAE_test_circular_horn')
 
-    DEFAULT_CONFIG = {
-    "learning_rate": 3e-4,
-    "epochs": 4000,
-    "batch_size": 8,
-    "latent_size": 5,
-    "random_seed" : 42,
-    'coder_channel_1': 16,
-    'coder_channel_2': 32,
-    'Parameter Number': 3}
-
-    project = "VAE"
-
-    wandb.init(config = DEFAULT_CONFIG,project=project, entity="skoogy_dan")
-    CONFIG = wandb.config
-    run_name = str(wandb.run.name)
-    print(run_name)
-    print('Applied Configuration:', CONFIG)
-
-    data = load_serialized_dataset('PatchAntennaDataset1')
-    train_data, test_data = train_test_data_split(data, TRAIN_TEST_RATIO = 0.7)
-
-    train_loader = DataLoader(train_data,batch_size=CONFIG['batch_size'],shuffle=True)
-    test_loader = DataLoader(test_data,batch_size=CONFIG['batch_size'],shuffle=True)
-
-    model = VAE()
-    model = model.to(device)
-
-    optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
-    criterion = nn.MSELoss()
-
-    final_model,best_model = train(model = model,
-                CONFIG = CONFIG,
-                train_dataloader= train_loader,
-                test_dataloader=test_loader,
-                optimizer=optimizer,
-                criterion=criterion)
-    
-
-    saveModel(final_model, run_name, subfolder= project)
-    saveModel(best_model, run_name + '_best_val', subfolder= project)
+    print("epoch : {}/{}, train_total_loss = {:.9e}, train_rec_loss = {:.9e}, train_kl_loss = {:.9e}".format(epoch + 1, EPOCHS, train_epoch_loss,train_epoch_rec_loss,train_epoch_kl_loss))
+    print("epoch : {}/{}, val_total_loss = {:.9e}, val_rec_loss = {:.9e}, val_kl_loss = {:.9e}".format(epoch + 1, EPOCHS, val_epoch_loss,val_epoch_rec_loss,val_epoch_kl_loss))
+    print(train_epoch_smooth_loss)

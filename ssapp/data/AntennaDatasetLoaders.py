@@ -48,9 +48,10 @@ def gen_coords_from_header(V_INI, V_INC,V_NUM, ):
     return thetas, phis
 
 
-def serialize_dataset(dataset: Dataset):    
+def serialize_dataset(dataset: Dataset,name = None):    
 
     save_dir = get_processed_dataset_path(dataset.name)
+
     with open(save_dir,'wb') as f:
         pickle.dump(dataset,f)
         f.close()

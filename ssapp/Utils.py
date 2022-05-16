@@ -11,6 +11,24 @@ def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7, set_random_seed = Tru
     train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len])    
     return train_set, test_set
 
+def train_test_dataloader_split(dataset, batch_size, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
+
+
+    train_set, test_set = train_test_data_split(dataset, TRAIN_TEST_RATIO, set_random_seed)
+    if batch_size == None:
+        train_dataloader = DataLoader(train_set, batch_size = len(train_set), shuffle=True)
+        test_dataloader = DataLoader(test_set, batch_size = len(test_set), shuffle=True)
+    else:
+        train_dataloader = DataLoader(train_set, batch_size = batch_size, shuffle=True)
+        test_dataloader = DataLoader(test_set, batch_size = batch_size, shuffle=True)
+
+    return train_dataloader, test_dataloader
+
+def get_single_dataset_example(dataset):
+
+    train_dataloader, test_dataloader = train_test_dataloader_split(dataset, batch_size=1)
+    return next(iter(test_dataloader))
+
 
 def save_eps_figure(filename, subfolder = None, format = 'eps'):
     
@@ -84,4 +102,8 @@ def genModelComparison(dataset: Dataset, benchmark_models: dict, test_metrics: d
     return df
 
 
+
+def tensor_conv(a,b):
+
+    pass
 

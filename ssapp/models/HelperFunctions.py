@@ -25,7 +25,6 @@ def saveModel(model,name, subfolder = None):
     return True
 
 def loadModel(model,name, subfolder = None):
-    assert type(subfolder) == type(str())
     assert type(name) == type(str())
 
     models_dir = getSaveModeldir()

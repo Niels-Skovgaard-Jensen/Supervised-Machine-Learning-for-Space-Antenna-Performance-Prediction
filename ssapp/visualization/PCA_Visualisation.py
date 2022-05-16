@@ -361,3 +361,5 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
     plt.title('PCA and Latent-Regression Reconstruction Loss')
     plt.grid(True)
 
+def plot_GP_performance_vs_dataset_size(dataset, model):
+    

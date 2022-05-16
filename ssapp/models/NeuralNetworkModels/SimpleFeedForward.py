@@ -4,6 +4,27 @@ from typing import OrderedDict
 import torch.nn as nn
 
 
+
+class FCBenchmark(nn.Module):
+    def __init__(self,input_size = 3):
+        super(FCBenchmark, self).__init__()
+        NN = 2000
+        self.regressor = nn.Sequential(nn.Linear(input_size, NN),
+                                       nn.ReLU(),
+                                       
+                                       nn.Linear(NN, NN),
+                                       nn.ReLU(),
+
+                                       nn.Linear(NN, NN),
+                                       nn.ReLU(),
+
+                                       nn.Linear(NN, 361*3*4))
+        
+    def forward(self, x):
+        output = self.regressor(x)
+        output = output.reshape(-1,361,3,4)
+        return output
+
 class DirectFeedForwardNet(nn.Module):
     def __init__(self,in_features,out_features,NN):
         super(DirectFeedForwardNet, self).__init__()
@@ -50,7 +71,7 @@ class ConfigurableFFN(nn.Module):
 
 
         self.regressor_architecture = []
-        node_list = 
+
         for i,num_nodes in enumerate(config['net_nodes']):
             self.regressor_architecture.append(nn.Linear(config['net_nodes'][i-1] ,config['net_nodes'][i]))
 

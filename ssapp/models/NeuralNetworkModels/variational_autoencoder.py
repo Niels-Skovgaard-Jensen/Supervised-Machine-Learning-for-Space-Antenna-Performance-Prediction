@@ -5,9 +5,9 @@ import torch
 
 class VAE(nn.Module):
     """Based slightly on https://medium.com/dataseries/variational-autoencoder-with-pytorch-2d359cbf027b"""
-    def __init__(self, config = {'latent_size': 1,
-                                'coder_channel_1': 16,
-                                'coder_channel_2': 32,
+    def __init__(self,device = 'CPU', config = {'latent_size': 5,
+                                'coder_channel_1': 32,
+                                'coder_channel_2': 128,
                                 'batch_size' : 4}):
         super(VAE, self).__init__()
         self.config = config
@@ -25,12 +25,13 @@ class VAE(nn.Module):
         PADDING_1 = (1,10)
         PADDING_2 = (0,0)
         
+        DTYPE = torch.float64
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
                                     out_channels=coder_channel_1,
                                     kernel_size=KERNEL_SIZE_1,
                                     padding = PADDING_1,
-                                    stride=STRIDE_1)
+                                    stride=STRIDE_1,dtype=torch.float64)
         self.conv_encoder2 = nn.Conv2d(in_channels=coder_channel_1,
                                     out_channels=coder_channel_2,
                                     kernel_size=KERNEL_SIZE_2,
@@ -66,8 +67,12 @@ class VAE(nn.Module):
         self.activation = nn.ReLU()
 
         self.N = torch.distributions.Normal(0, 1)
-        self.N.loc = self.N.loc # hack to get sampling on the GPU
-        self.N.scale = self.N.scale
+        if torch.cuda.is_available():
+            self.N.loc = self.N.loc.cuda() # hack to get sampling on the GPU
+            self.N.scale = self.N.scale.cuda()
+        else:
+            self.N.loc = self.N.loc 
+            self.N.scale = self.N.scale
         self.kl = 0
 
 
@@ -99,17 +104,37 @@ class VAE(nn.Module):
         z = self.conv_decoder2(z).reshape(-1,361,3,4)
         return z
 
+    def kl_divergence(self, z, mu, std):
+        # --------------------------
+        # Monte carlo KL divergence
+        # --------------------------
+        # 1. define the first two probabilities (in this case Normal for both)
+        p = torch.distributions.Normal(torch.zeros_like(mu), torch.ones_like(std))
+        q = torch.distributions.Normal(mu, std)
+
+        # 2. get the probabilities from the equation
+        log_qzx = q.log_prob(z)
+        log_pz = p.log_prob(z)
+
+        # kl
+        #kl = (log_qzx - log_pz)
+        
+        # sum over last dim to go from single dim distribution to multi-dim
+        # kl = kl.sum(-1)
+
+        kl = torch.distributions.kl.kl_divergence(p,q).sum()/len(std)
+        return kl
 
     def forward(self, x):
-        #Encode
+        # Encode
         mu,sigma = self.var_encode(x)
-        #Sample latent space
+        # Sample latent space
         z = mu + sigma*self.N.sample(mu.shape)
-        #Reconstruct from latent space sample
+        # Reconstruct from latent space sample
         reconstruction = self.decode(z)
         # Calculate Kullbach Liebler Divergence
-        self.kl = (sigma**2 + mu**2 - torch.log(sigma) - 1/2).sum() 
-
+        # self.kl = (sigma**2 + mu**2 - torch.log(sigma) - 1/2).sum() 
+        self.kl = self.kl_divergence(z, mu, sigma)
         return reconstruction
 
 

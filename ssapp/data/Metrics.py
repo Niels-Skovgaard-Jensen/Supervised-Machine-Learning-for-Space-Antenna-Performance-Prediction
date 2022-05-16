@@ -27,7 +27,7 @@ def relRMSE(y_pred, y_true, sample_weights=None):
         return np.dot(sample_weights, np.sqrt(nomin / denom)) / sum(sample_weights)
 
 def relRMSE_pytorch(y_pred, y_true, sample_weights=None):
-    "Torch Implementation of relRMSE"
+    """Torch Implementation of relRMSE"""
     assert type(y_true) is type(torch.tensor([]))
     assert type(y_pred) is type(torch.tensor([]))
 
@@ -43,8 +43,8 @@ def relRMSE_pytorch(y_pred, y_true, sample_weights=None):
             sample_weights = torch.tensor(sample_weights)
             sample_weights = torch.delete(sample_weights, idx)
 
-    nomin = torch.power(y_true - y_pred, 2).sum()
-    denom = torch.power(y_true, 2).sum() + 1.0e-9
+    nomin = ((y_true - y_pred)**2).sum()
+    denom = (y_true**2).sum() + 1.0e-9
     if type(sample_weights) == type(None):
         return torch.sqrt(nomin / denom)
     else:
