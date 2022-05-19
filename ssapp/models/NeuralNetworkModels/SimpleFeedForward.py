@@ -1,6 +1,7 @@
 
 
 from typing import OrderedDict
+from torch import batch_norm
 import torch.nn as nn
 
 
@@ -8,17 +9,14 @@ import torch.nn as nn
 class FCBenchmark(nn.Module):
     def __init__(self,input_size = 3):
         super(FCBenchmark, self).__init__()
-        NN = 2000
-        self.regressor = nn.Sequential(nn.Linear(input_size, NN),
-                                       nn.ReLU(),
-                                       
-                                       nn.Linear(NN, NN),
-                                       nn.ReLU(),
-
-                                       nn.Linear(NN, NN),
-                                       nn.ReLU(),
-
-                                       nn.Linear(NN, 361*3*4))
+        NN = 1000
+        self.regressor = nn.Sequential(nn.Linear(input_size, NN*4),
+                                       nn.LeakyReLU(),
+                                       nn.Linear(NN*4, NN*2),
+                                       nn.LeakyReLU(),
+                                       nn.Linear(NN*2, int(NN*1.5)),
+                                       nn.LeakyReLU(),
+                                       nn.Linear(int(NN*1.5), 361*3*4))
         
     def forward(self, x):
         output = self.regressor(x)

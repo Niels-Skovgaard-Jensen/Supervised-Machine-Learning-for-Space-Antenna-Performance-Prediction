@@ -16,20 +16,29 @@ from ssapp.models.NeuralNetworkModels.SimpleFeedForward import FCBenchmark
 torch.manual_seed(42) # Manual seed for sanity
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+import wandb
 
+DEFAULT_CONFIG = {
+    "learning_rate": 3e-4,
+    "epochs": 400,
+    "batch_size": 32}
 
+project = "FeedForwardPatchAntenna"
 
+wandb.init(config = DEFAULT_CONFIG,project=project, entity="skoogy_dan")
+CONFIG = wandb.config
+run_name = str(wandb.run.name)
 
 #dataset = load_serialized_dataset('CircularHornDataset1')
 
-BATCH_SIZE = 16
+BATCH_SIZE = CONFIG['batch_size']
 NUM_WORKERS = 4
 
-train_set = load_serialized_dataset('PatchAntennaDataset2_Train')
-test_set = load_serialized_dataset('PatchAntennaDataset2_Val')
+#train_set = load_serialized_dataset('PatchAntennaDataset2_Train')
+#test_set = load_serialized_dataset('PatchAntennaDataset2_Val')
 
-#train_set = load_serialized_dataset('CircularHornDataset1_Train')
-#test_set = load_serialized_dataset('CircularHornDataset1_Val')
+train_set = load_serialized_dataset('CircularHornDataset1_Train')
+test_set = load_serialized_dataset('CircularHornDataset1_Val')
 
 train_dataloader = DataLoader(train_set, batch_size = BATCH_SIZE, shuffle=True,num_workers = NUM_WORKERS,drop_last=True)
 test_dataloader = DataLoader(test_set, batch_size = BATCH_SIZE, shuffle=True,num_workers=NUM_WORKERS,drop_last=True)
@@ -39,7 +48,15 @@ print(params.shape)
 
 
 #Define model
+
+
 model = FCBenchmark(input_size = params.shape[1])
+print(torch.cuda.device_count())
+if torch.cuda.device_count() > 1:
+  print("Let's use", torch.cuda.device_count(), "GPUs!")
+  # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+  model = nn.DataParallel(model)
+
 
 model = model.to(device)
 #Test Forward pass
@@ -54,9 +71,9 @@ EPOCHS = int(800)
 
 
 
-optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
+optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE,weight_decay=1e-2)
 
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[100,200,300,400,500,600,700], verbose = True)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[100,200,500], verbose = True)
 
 
 startTime = datetime.now()
@@ -118,9 +135,17 @@ for epoch in range(EPOCHS):
     
     if epoch_test_loss < best_val_loss:
         best_val_loss = epoch_test_loss
-        saveModel(model=model,name = 'Simple_Feed_Forward_Patch')
+        saveModel(model=model,name = run_name,subfolder=project)
         
+    
+
     scheduler.step()
+
+    wandb.log({'Train_loss':epoch_training_loss,
+                'Val_loss':epoch_test_loss,
+                'best_val_loss':best_val_loss,
+                'Learning Rate':scheduler.get_lr()})
+    
     print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, EPOCHS, loss,epoch_test_loss))
     
 
