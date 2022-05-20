@@ -9,12 +9,6 @@ For overview and mathy stuff look [here](https://skoogydan.github.io/Supervised-
 
 The project is structured roughly in accordance with the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).
 
-ssapp - main packaged code for models data tranformations and so on
-
-notebooks - Jupyter notebooks for quick tests and exploration of data
-
-
-
 Easiest way to install is simply to make a new virtual enviornment and run
 """
 python setup.py install
