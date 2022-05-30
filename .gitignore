@@ -6,19 +6,20 @@ __pycache__/
 docs/_build/
 
 # Jupyter notebook checkpoints
-.ipynb_checkpoints
+*.ipynb_checkpoints
 
 #Weights and Biases Runs
 wandb/
-.vscode
+*.vscode
 
+# Serialised pytorch models
+*.pt
+# Serialised Datasets
+*.pickle
 
 SumSapp.egg-info/
 dist/
 build/
 ssapp.egg-info/
 JobScripts/
-data/processed/PatchAntennaDataset1.pickle
-data/processed/PatchAntennaDataset2.pickle
-data/processed/CircularHornDataset1.pickle
-data/processed/ReflectorCutDataset.pickle
+reports/.svg
