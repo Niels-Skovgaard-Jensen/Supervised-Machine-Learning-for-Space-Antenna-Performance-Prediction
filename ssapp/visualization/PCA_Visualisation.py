@@ -121,7 +121,7 @@ def plot3DContour(dataset,
     ax = fig.add_subplot(projection='3d')
     ax.scatter(X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
-    fig.suptitle('3D point cloud of '+dataset_name+' unto 3 main principle components')
+    #fig.suptitle('3D point cloud of '+dataset_name+' unto 3 main principle components')
     cset = ax.scatter(np.ones_like(X)*X_max*proj_scalers[0]-0.01*X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
     cset = ax.scatter(X, np.ones_like(Y)*Y_max*proj_scalers[1]-0.01*Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
@@ -149,7 +149,8 @@ def plotInverseTransformStandardPCA(dataset,
                                     ylabel = 'dB',
                                     pca_components = [1,2],
                                     plot_deviation_from_mean = False,
-                                    polar_coordiantes = True):
+                                    polar_coordiantes = True,
+                                    plot_scaling=True):
 
     assert component == 'co' or component == 'cross'
     assert len(pca_components) == 2
@@ -210,7 +211,9 @@ def plotInverseTransformStandardPCA(dataset,
             temp_min = min(temp_min,min(plot_field))
             temp_max = max(temp_max,max(plot_field))
         
-        ax.set_ylim([max(-150,temp_min),temp_max*1.2])
+
+        if plot_scaling:
+            ax.set_ylim([max(-150,temp_min),temp_max*1.2])
             
         
         
@@ -361,5 +364,3 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
     plt.title('PCA and Latent-Regression Reconstruction Loss')
     plt.grid(True)
 
-def plot_GP_performance_vs_dataset_size(dataset, model):
-    
