@@ -1,6 +1,6 @@
 import torch
 from pathlib import Path
-
+import yaml
 
 
 def getSaveModeldir():
@@ -8,6 +8,18 @@ def getSaveModeldir():
     models_dir = main_dir / 'models' 
 
     return models_dir
+
+def saveConfig(config,name, subfolder = None):
+    name = name +'.yaml'
+    models_dir = getSaveModeldir()
+    if type(subfolder) is type(str()):
+        PATH = models_dir / subfolder / name
+    else:
+        PATH = models_dir / name
+        
+    with open(PATH, 'w') as stream:
+        yaml.dump(config,stream)
+
 
 def saveModel(model,name, subfolder = None):
     assert type(name) == type(str())

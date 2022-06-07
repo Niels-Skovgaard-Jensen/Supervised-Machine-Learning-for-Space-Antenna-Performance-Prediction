@@ -11,7 +11,7 @@ sns.set_theme()
 
 
 
-def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = (0,1),figsize = (14,2.75)):
+def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = (0,1),figsize = (14,2.75),title = None):
 
     pca_components = [x-1 for x in pca_components] # Switch to zero-index
     num_samples = len(dataset)
@@ -29,8 +29,14 @@ def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = 
     if param_names is None:
         param_names = ['Parameter '+str(x) for x in range(0,num_params)]
     
-    fig, axs = plt.subplots(nrows = 1, ncols = num_params,figsize = figsize)
-    fig.suptitle(dataset.name +' PCA Projection With Parameter Coloring', fontsize = 16)
+    fig, axs = plt.subplots(nrows = 1, ncols = num_params,figsize = figsize,tight_layout = True)
+
+    if type(title) == type(None):
+        fig.suptitle(dataset.name +' PCA Projection With Parameter Coloring', fontsize = 16)
+    else:
+        fig.suptitle(title, fontsize = 16)
+
+
     axs[0].set_ylabel('PCA '+str(pca_components[1]+1))
     for i in range(0,num_params):
         im = axs[i].scatter(projection[:,0],projection[:,1],c = params[:,i],cmap = 'plasma')

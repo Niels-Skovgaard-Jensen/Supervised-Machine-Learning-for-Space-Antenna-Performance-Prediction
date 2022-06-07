@@ -243,3 +243,70 @@ class AutoencoderFullyConnected(nn.Module):
         reconstruction = self.decode(self.latent_space)
 
         return reconstruction
+
+
+class AutoencoderFCResNet(nn.Module):
+    def __init__(self,latent_size = 3):
+        super(AutoencoderFCResNet, self).__init__()
+
+
+        self.encode_lin1 = nn.Linear(in_features = 4*3*361,
+                                    out_features = 1000)
+
+        self.encode_lin2 = nn.Linear(in_features=1000,
+                                    out_features= 200)
+
+        self.encode_lin3 = nn.Linear(in_features=200,
+                                    out_features= latent_size)
+
+        self.decode_lin1 =nn.Linear(in_features=latent_size,
+                                    out_features= 200)
+
+        self.decode_lin2 =nn.Linear(in_features=200,
+                                    out_features= 1000)
+
+        self.decode_lin3 =nn.Linear(in_features=1000,
+                                    out_features= 4*3*361)
+
+        self.res_encode = nn.Linear(in_features=4*3*361,
+                                    out_features=200)
+
+        self.res_decode = nn.Linear(in_features= latent_size,
+                                    out_features=1000)
+
+
+        self.activation = nn.LeakyReLU()
+
+
+    def encode(self,x):
+        batch_size = len(x)
+        x = x.reshape(batch_size,4*3*361) # 
+        res = x
+        x = self.encode_lin1(x)
+        x = self.activation(x)
+        x = self.encode_lin2(x)
+        x = x+self.res_encode(res)
+        x = self.activation(x)
+        latent_space = self.encode_lin3(x)
+        
+        return latent_space
+
+    def decode(self,y):
+
+        res = y
+        y = self.decode_lin1(y)
+        y = self.activation(y)
+        y = self.decode_lin2(y)
+
+        y = y+self.res_decode(res)
+        y = self.activation(y)
+        y = self.decode_lin3(y).reshape(-1,361,3,4)
+        return y
+
+
+    def forward(self, x):
+
+        self.latent_space = self.encode(x)
+        reconstruction = self.decode(self.latent_space)
+
+        return reconstruction

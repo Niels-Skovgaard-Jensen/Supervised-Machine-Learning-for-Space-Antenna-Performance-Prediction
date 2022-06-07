@@ -1,5 +1,6 @@
 
 from ssapp.models.NeuralNetworkModels.variational_autoencoder import VAE
+from ssapp.models.NeuralNetworkModels.Autoencoders import AutoencoderFullyConnected
 from ssapp.data.AntennaDatasetLoaders import load_serialized_dataset
 from ssapp.Utils import train_test_data_split
 from torch.utils.data.dataloader import DataLoader
@@ -30,7 +31,8 @@ config = {'latent_size': 5,
 train_dataloader = DataLoader(train_dataset,batch_size=config['batch_size'])
 val_dataloader = DataLoader(val_dataset,batch_size=config['batch_size'])
 
-model = VAE(config)
+#model = VAE(config)
+model = AutoencoderFullyConnected()
 model.to(device)
 model.double()
 

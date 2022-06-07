@@ -10,11 +10,11 @@ import torch.optim as optim
 import torch.nn as nn
 import torch
 
-from ssapp.models.NeuralNetworkModels.Autoencoders import PatchAntenna1ConvAutoEncoder
+from ssapp.models.NeuralNetworkModels.Autoencoders import PatchAntenna1ConvAutoEncoder, AutoencoderFullyConnected
 from ssapp.models.HelperFunctions import saveModel
 from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset2, load_serialized_dataset
 from ssapp.Utils import train_test_data_split
-from ssapp.data.Metrics import relRMSE
+from ssapp.data.Metrics import relRMSE, relRMSE_pytorch
 
 import wandb
 print('Running')
@@ -41,8 +41,7 @@ def train(model : torch.nn, CONFIG, train_dataloader: DataLoader,test_dataloader
             train_outputs = model(field)
                 
             # compute training reconstruction loss
-            train_loss = criterion(train_outputs, field)
-            scikit_loss += relRMSE(train_outputs.detach().to('cpu').flatten(), field.detatch().to('cpu').flatten())
+            train_loss = relRMSE_pytorch(train_outputs, field)
             # compute accumulated gradients
             train_loss.backward()
                 
@@ -105,7 +104,7 @@ if __name__ == "__main__":
     scikit_val_dataloader = DataLoader(test_data,batch_size=len(test_data),shuffle=True)
 
 
-    model = PatchAntenna1ConvAutoEncoder(config = CONFIG)
+    model = AutoencoderFullyConnected()
     model = model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'])
