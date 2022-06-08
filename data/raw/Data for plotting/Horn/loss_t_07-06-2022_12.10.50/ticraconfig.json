@@ -1,0 +1,32 @@
+{
+  "output": {
+    "path": "loss_t",
+    "structure": {
+      ".cut": "cut_files"
+    }
+  },
+  "variables": [
+    {
+      "name": "eps_r",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0.5, "stop": 1.5, "num": 1 }
+      }
+    },
+    {
+      "name": "loss_t",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0.0, "stop": 0.4, "num": 100 }
+      }
+    }
+  ],
+  "command": [
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT pattern_cut set ( file_name : {cut_files}, class : pattern_cut)",
+    "COMMAND OBJECT pattern_cut get_field ( source : sequence(ref(radiating_horn)))"
+  ]
+}

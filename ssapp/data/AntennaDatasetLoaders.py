@@ -518,12 +518,23 @@ class CircularHornDataset1(Dataset):
             
         return parameters, field_val
 
-def serialise_all_datasets():
-    datasets = [PatchAntennaDataset(),
-                PatchAntennaDataset2(),
-                ReflectorCutDataset(),
-                CircularHornDataset1()]
+def serialise_all_datasets(Split = None):
+    assert split in ['holdout',None,'k-fold']
+    
+    datasets = [PatchAntennaDataset,
+                PatchAntennaDataset2,
+                ReflectorCutDataset,
+                ReflectorCutDataset2,
+                CircularHornDataset1]
 
     for dataset in datasets:
-        print(dataset)
-        serialize_dataset(dataset)
+        data = dataset()
+        
+        if type(split) == type(None):
+            serialize_dataset(dataset)
+        elif split == 'holdout':
+            serialize_dataset(dataset)
+        elif split == 'k-fold':
+            pass
+        elif split == 'all':
+            serialise_all_datasets()
