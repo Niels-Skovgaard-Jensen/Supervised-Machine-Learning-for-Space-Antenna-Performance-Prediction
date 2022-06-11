@@ -1,4 +1,5 @@
-from torch.utils.data import Dataset
+from torch.utils.data import random_split, Dataset
+from torch.utils.data.dataloader import DataLoader
 from pathlib import Path
 import numpy as np
 import torch
@@ -17,8 +18,6 @@ def set_global_random_seed(seed=42):
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
-
-
 
 def get_raw_dataset_path(dataset_name: str):
 
@@ -72,7 +71,59 @@ def load_serialized_dataset(dataset_name: str,extra_back_steps = 0):
         f.close()
     return dataset
 
+def serialise_all_datasets(split = None):
+    assert split in ['holdout',None,'k-fold']
+    
+    dataset_constructors = [PatchAntennaDataset,
+                PatchAntennaDataset2,
+                ReflectorCutDataset,
+                ReflectorCutDataset2,
+                CircularHornDataset1,
+                MLADataset1,
+                ]
 
+    for dataset_constructor in dataset_constructors:
+
+        #Instantiate dataset
+        dataset = dataset_constructor()
+        print('Serializing',dataset.name)
+        # Make split if nessesary
+        if type(split) == type(None):
+            serialize_dataset(dataset)
+        elif split == 'holdout':
+            
+            print('Dataset loaded:',dataset)
+            train_dataset, val_dataset = train_test_data_split(dataset)
+            train_dataset.name = dataset.name+'_Train'
+            val_dataset.name = dataset.name+'_Val'
+        elif split == 'k-fold':
+            pass
+        elif split == 'all':
+            serialise_all_datasets()
+
+def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
+
+    train_len = int(len(dataset)*TRAIN_TEST_RATIO)
+    train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len])    
+    return train_set, test_set
+
+def train_test_dataloader_split(dataset, batch_size, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
+
+
+    train_set, test_set = train_test_data_split(dataset, TRAIN_TEST_RATIO, set_random_seed)
+    if batch_size == None:
+        train_dataloader = DataLoader(train_set, batch_size = len(train_set), shuffle=True)
+        test_dataloader = DataLoader(test_set, batch_size = len(test_set), shuffle=True)
+    else:
+        train_dataloader = DataLoader(train_set, batch_size = batch_size, shuffle=True)
+        test_dataloader = DataLoader(test_set, batch_size = batch_size, shuffle=True)
+
+    return train_dataloader, test_dataloader
+
+def get_single_dataset_example(dataset):
+
+    train_dataloader, test_dataloader = train_test_dataloader_split(dataset, batch_size=1)
+    return next(iter(test_dataloader))
     
     
 
@@ -518,23 +569,57 @@ class CircularHornDataset1(Dataset):
             
         return parameters, field_val
 
-def serialise_all_datasets(Split = None):
-    assert split in ['holdout',None,'k-fold']
-    
-    datasets = [PatchAntennaDataset,
-                PatchAntennaDataset2,
-                ReflectorCutDataset,
-                ReflectorCutDataset2,
-                CircularHornDataset1]
 
-    for dataset in datasets:
-        data = dataset()
+class MLADataset1(Dataset):
+
+    def __init__(self,cuts = 10000):
+        self.cuts = cuts
+        self.name = 'MLADataset1'
+
+        # Define data placement
+        cut_dir, param_dir = get_raw_dataset_path(self.name)
+        param_file = param_dir / 'lookup.log'
         
-        if type(split) == type(None):
-            serialize_dataset(dataset)
-        elif split == 'holdout':
-            serialize_dataset(dataset)
-        elif split == 'k-fold':
-            pass
-        elif split == 'all':
-            serialise_all_datasets()
+        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=10000-cuts,dtype = np.float32)
+        self.antenna_parameters = self.antenna_parameters.reshape(cuts,11)[:,1:11]
+
+        ## Kinda hardcoded fix, might want to automate it a little more
+        file_to_open = cut_dir / '0.cut'
+        V_INI, V_INC, V_NUM, C, ICOMP, ICUT, NCOMP = np.genfromtxt(file_to_open, max_rows=1, skip_header=1)
+        self.V_NUM = int(V_NUM)
+
+        self.thetas = np.linspace(V_INI,V_INI+V_INC*(self.V_NUM-1),int(self.V_NUM))
+        # Generate First Cut
+        self.field_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+        for i in range(1,3):
+                self.field_cut=np.append(self.field_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+        # Then append to that cut
+        for i in range(1,cuts):
+            file_to_open = cut_dir / (str(i)+'.cut')
+            phi_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+            for i in range(1,3):
+                phi_cut=np.append(phi_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+            self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
+        
+        ## Convert to tensors
+        self.field_cut = torch.tensor(self.field_cut)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+    def __len__(self):
+        return self.cuts
+    
+
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        
+        parameters = torch.tensor(self.antenna_parameters[idx,:])
+
+        field_val = self.field_cut[idx,:,:]
+
+            
+        return parameters, field_val
+
+

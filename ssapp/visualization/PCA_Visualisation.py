@@ -11,7 +11,9 @@ sns.set_theme()
 
 
 
-def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = (0,1),figsize = (14,2.75),title = None):
+def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = (1,2),figsize = (14,2.75),title = None, layout_shape = None):
+
+    
 
     pca_components = [x-1 for x in pca_components] # Switch to zero-index
     num_samples = len(dataset)
@@ -29,16 +31,23 @@ def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = 
     if param_names is None:
         param_names = ['Parameter '+str(x) for x in range(0,num_params)]
     
-    fig, axs = plt.subplots(nrows = 1, ncols = num_params,figsize = figsize,tight_layout = True)
 
+    
+    if layout_shape is not None:
+        
+        fig, axs = plt.subplots(nrows = layout_shape[0], ncols =  layout_shape[1],figsize = figsize,tight_layout = True)
+    else:
+        fig, axs = plt.subplots(nrows = 1, ncols = num_params,figsize = figsize,tight_layout = True)
+
+    
     if type(title) == type(None):
         fig.suptitle(dataset.name +' PCA Projection With Parameter Coloring', fontsize = 16)
     else:
         fig.suptitle(title, fontsize = 16)
 
-
+    axs = axs.flatten() # Ensure flat axis array
     axs[0].set_ylabel('PCA '+str(pca_components[1]+1))
-    for i in range(0,num_params):
+    for i in range(num_params):
         im = axs[i].scatter(projection[:,0],projection[:,1],c = params[:,i],cmap = 'plasma')
         axs[i].set_xlabel('PCA '+str(pca_components[0]+1))
         
@@ -234,6 +243,96 @@ def plotInverseTransformStandardPCA(dataset,
         ax.set_ylabel(ylabel)
 
 
+def plotInverseTransformFromAutoencoder(dataset,
+                                    AE_model,
+                                    num_std_dev = 1,
+                                    phi_cut = [0,1,2],
+                                    phi_labels = None,
+                                    num_rows = 5,
+                                    num_cols = 5,
+                                    component = 'co',
+                                    transform = lambda a,b : 20*torch.log10(a**2+b**2),
+                                    ylabel = 'dB',
+                                    AE_components = [1,2],
+                                    plot_scaling=True):
+
+    assert component == 'co' or component == 'cross'
+    assert len(AE_components) == 2
+
+    
+
+    AE_components = [x-1 for x in AE_components] # Switch to zero-index
+
+    ylabel = r'$|E_{'+component+'}|$ '+ylabel
+
+    dataloader = DataLoader(dataset,batch_size = len(dataset))
+    params, fields = next(iter(dataloader))
+    
+    
+
+    latent_points = AE_model.encode(fields)[:,list(AE_components)]
+
+    latent_std_dev = np.std(latent_points.detach().numpy(),axis= 0)
+    latent_mean = np.mean(latent_points.detach().numpy(), axis = 0)
+
+    X = np.linspace(latent_mean[0]-num_std_dev*latent_std_dev[0],latent_mean[0]+num_std_dev*latent_std_dev[0],num_cols)
+    Y = np.linspace(latent_mean[1]-num_std_dev*latent_std_dev[1],latent_mean[1]+num_std_dev*latent_std_dev[1],num_rows)
+    X,Y = np.meshgrid(X,Y)
+    
+    theta = np.linspace(-180,180,len(fields[0,:,0,0]))
+
+    fig = plt.figure(figsize = (8,9.5),constrained_layout=True)
+    subfigs = fig.subfigures(2, 1, height_ratios=[0.7, 1.])
+
+    ax = subfigs[0].add_subplot(1,1,1, adjustable='box', aspect=pltAspectRatio(latent_points))
+    ax.set_title('2D Autoencoder Latent Space')
+    ax.set_xlabel('AE_Component '+str(AE_components[0]+1))
+    ax.set_ylabel('AE_Component '+str(AE_components[1]+1))
+
+    ax.scatter(latent_points[:,0].detach(),latent_points[:,1].detach(),marker='o',s=1,label = 'Projected Data')
+    ax.scatter(X,Y,marker='x',color = 'red',s = 120,label = 'Reconstructed Point')
+
+    subfigs[0].legend()
+
+
+    axs = subfigs[1].subplots(nrows=num_rows,ncols = num_cols, sharex='all', sharey='row')
+
+    latent_pred_point = np.zeros(shape = (max(AE_components)+1))
+    
+    for i,ax in enumerate(axs.flatten()):
+        latent_pred_point[AE_components[0]] = X.flatten()[i]
+        latent_pred_point[AE_components[1]] = Y.flatten()[i]
+        pred = AE_model.decode(torch.tensor(latent_pred_point)).reshape(1,361,3,4)
+        
+        temp_max,temp_min = (0,0)
+        for i,phi in enumerate(list(phi_cut)):
+            if component == 'co':
+                plot_field = transform(pred[0,:,phi,0],pred[0,:,phi,1])
+            elif component == 'cross':
+                plot_field = transform(pred[0,:,phi,2],pred[0,:,phi,3])
+            ax.plot(theta,plot_field.detach())
+            temp_min = min(temp_min,min(plot_field))
+            temp_max = max(temp_max,max(plot_field))
+        
+
+        if plot_scaling:
+            ax.set_ylim([max(-150,temp_min.detach()),temp_max.detach()*1.2])
+
+        
+        
+        
+
+        ax.set_xlim([-180,180])
+        
+    
+
+    for ax in axs[-1,:]:
+        ax.set_xlabel(r'$\theta\degree$')
+    for ax in axs[:,0]:
+        ax.set_ylabel(ylabel)
+
+    subfigs[1].legend()
+
 def plotFieldComparison(Y_pred,
                         Y_truth,
                         idx = 0,
@@ -253,7 +352,7 @@ def plotFieldComparison(Y_pred,
         Y_plot_field = transform(Y_truth[idx,:,phis,2],Y_truth[idx,:,phis,3])
 
     thetas =  np.array([np.linspace(-180,180,361) for x in phis]).T
-    print(thetas.shape)
+
     plt.figure()
     plt.title(title)
     plt.plot(thetas,X_plot_field,label='Pred.')

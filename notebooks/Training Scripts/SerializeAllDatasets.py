@@ -1,14 +1,17 @@
 
-from sklearn.model_selection import train_test_split
-from ssapp.data.AntennaDatasetLoaders import serialise_all_datasets, serialize_dataset
-from ssapp.data.AntennaDatasetLoaders import PatchAntennaDataset, PatchAntennaDataset2, CircularHornDataset1
+from ssapp.Utils import train_test_data_split
+from ssapp.data.AntennaDatasetLoaders import * # I know this is a no-no. But in this particular case i think it is okay
 
 
 if __name__ == '__main__':
-    datasets = [PatchAntennaDataset(),
-                PatchAntennaDataset2(),
-                CircularHornDataset1()]
+    dataset_constructors = [MLADataset1,
+                            ReflectorCutDataset2,
+                            ReflectorCutDataset]
 
-    for dataset in datasets:
-        print(dataset)
+    for dataset_constructor in dataset_constructors:
+        print('Next Dataset:',dataset_constructor)
+        print('This might take some time...')
+        dataset = dataset_constructor()
+        print('Dataset loaded:',dataset)
         serialize_dataset(dataset)
+

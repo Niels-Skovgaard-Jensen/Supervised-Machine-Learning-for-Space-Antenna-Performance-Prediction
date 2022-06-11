@@ -1,0 +1,255 @@
+global_coor  coor_sys  
+(
+)
+ 
+frequencies  frequency  
+(
+  frequency_list   : sequence(30.0 GHz)
+)
+ 
+surface  paraboloid  
+(
+  focal_length     : 520.0 mm
+)
+ 
+rim  elliptical_rim  
+(
+  centre           : struct(x: 370.0 mm, y: 0.0 m),
+  half_axis        : struct(x: 305.0 mm, y: 305.0 mm)
+)
+ 
+reflector  reflector  
+(
+  surfaces         : sequence(ref(surface)),
+  rim              : ref(rim)
+)
+ 
+feed_coor  coor_sys  
+(
+  origin           : struct(x: 0.0 mm, y: 0.0 mm, z: 520.0 mm),
+  x_axis           : struct(x: 0.775297500591727, y: 0.0, z: 0.63159622036252),
+  y_axis           : struct(x: 0.0, y: -1.0, z: 0.0),
+  base             : ref(global_coor)
+)
+ 
+feed  gaussian_beam_pattern  
+(
+  frequency        : ref(frequencies),
+  coor_sys         : ref(feed_coor),
+  taper_angle      : 29.4087874022007,
+  taper            : -12.0
+)
+ 
+po  po_single_face_scatterer  
+(
+  frequency        : ref(frequencies),
+  scatterer        : ref(reflector),
+  po_points        : struct(po1: 100, po2: 200),
+  ptd_points       : sequence
+    (    struct(edge: -1, ptd: 200)
+    ),
+  coor_sys         : ref(global_coor)
+)
+ 
+cut_coor  coor_sys  
+(
+  origin           : struct(x: 369.999996596673 mm, y: 0.0 mm, z: 65.8173064815085 mm),
+  base             : ref(global_coor)
+)
+ 
+conical_horn  conical_horn  
+(
+  frequency        : ref(frequencies),
+  coor_sys         : ref(feed_coor),
+  aperture_radius  : 5.25 mm,
+  modes            : sequence
+    (    struct(type: TE11, amp: 1.0, phase: 0.0, rot: 90.0)
+    )
+)
+ 
+bulk_optimisation_variables_array  bulk_optimisation_variables_array  
+(
+  target           : ref(planar_grid_array)
+)
+ 
+goal_far_field_specific_direction  goal_far_field_specific_direction  
+(
+  source           : sequence(ref(planar_grid_array)),
+  coor_sys         : ref(global_coor),
+  goal_spec        : sequence
+    (    struct(frequency_index: -1, beam_index: 1, coor_1: 1.0, coor_2: 0.0, component: linear_x, goal: 0.0, 
+weight: 1.0, action: maximise)
+    )
+)
+ 
+tab_feed_el_beams  spherical_grid  
+(
+  coor_sys         : ref(cut_coor),
+  grid_type        : elevation_over_azimuth,
+  x_range          : struct(start: -10.0, end: 10.0, np: 101),
+  y_range          : struct(start: -10.0, end: 10.0, np: 101)
+)
+ 
+tab_feed_composite_beam  spherical_grid  
+(
+  coor_sys         : ref(cut_coor),
+  grid_type        : elevation_over_azimuth,
+  x_range          : struct(start: -5.0, end: 5.0, np: 101),
+  y_range          : struct(start: -5.0, end: 5.0, np: 101)
+)
+ 
+owu_far_field_spherical_cuts  owu_far_field_spherical_cut  
+(
+  sources          : sequence(ref(planar_grid_array),ref(po)),
+  coor_sys         : ref(cut_coor),
+  theta_range      : struct(start: -5.0, end: 5.0, np: 50)
+)
+ 
+uq_setting_01  mc_settings  
+(
+  max_iterations   : 500
+)
+ 
+planar_grid_array  planar_grid_array  
+(
+  frequency        : ref(frequencies),
+  coor_sys         : ref(feed_coor),
+  grid_position    : struct(grid_cenx: 0.0 m, grid_ceny: 0.0 m, grid_rot: 0.0, grid_spac: 0.2E-01 m),
+  elements         : sequence
+    (    struct(id: 1, mx: 0, my: 0, theta: 0.0, phi: 0.0, psi: 0.0, source: ref(conical_horn), beam_id: " "),
+    struct(id: 2, mx: 1, my: 1, theta: 0.0, phi: 0.0, psi: 0.0, source: ref(conical_horn), beam_id: " "),
+    struct(id: 3, mx: 0, my: 1, theta: 0.0, phi: 0.0, psi: 0.0, source: ref(conical_horn), beam_id: " "),
+    struct(id: 4, mx: 1, my: 0, theta: 0.0, phi: 0.0, psi: 0.0, source: ref(conical_horn), beam_id: " "),
+    struct(id: 5, mx: 2, my: 2, theta: 0.0, phi: 0.0, psi: 0.0, source: ref(conical_horn), beam_id: " ")
+    ),
+  element_composite : composite,
+  exc              : sequence
+    (    struct(id: 1, db: "ref(a_A_1)", deg: "ref(b_phi_1)", beam: " "),
+    struct(id: 2, db: "ref(c_A_2)", deg: "ref(d_phi_2)", beam: " "),
+    struct(id: 3, db: "ref(e_A_3)", deg: "ref(f_phi_3)", beam: " "),
+    struct(id: 4, db: "ref(g_A_4)", deg: "ref(h_phi_4)", beam: " "),
+    struct(id: 5, db: "ref(i_A_5)", deg: "ref(j_phi_5)", beam: " ")
+    )
+)
+ 
+a_A_1  real_variable  
+(
+  value            : 0.0
+)
+ 
+c_A_2  real_variable  
+(
+  value            : -20.0
+)
+ 
+e_A_3  real_variable  
+(
+  value            : 0.0
+)
+ 
+g_A_4  real_variable  
+(
+  value            : 0.0
+)
+ 
+i_A_5  real_variable  
+(
+  value            : 0.0
+)
+ 
+bulk_amp_and_phase  bulk_uq_variables_array  
+(
+  target           : ref(planar_grid_array),
+  amplitude_uncertainty : ref(Amplitude_dist_normal),
+  phase_uncertainty : ref(Phase_dist_normal)
+)
+ 
+b_phi_1  real_variable  
+(
+  value            : 0.0
+)
+ 
+d_phi_2  real_variable  
+(
+  value            : 0.0
+)
+ 
+f_phi_3  real_variable  
+(
+  value            : 0.0
+)
+ 
+h_phi_4  real_variable  
+(
+  value            : 0.0
+)
+ 
+j_phi_5  real_variable  
+(
+  value            : 0.0
+)
+ 
+uq_setting_02  pce_settings  
+(
+  max_iterations   : 17000
+)
+ 
+bulk_amp_only  bulk_uq_variables_array  
+(
+  target           : ref(planar_grid_array),
+  amplitude_uncertainty : ref(Amplitude_dist_normal)
+)
+ 
+bulk_phase_only  bulk_uq_variables_array  
+(
+  target           : ref(planar_grid_array),
+  phase_uncertainty : ref(Phase_dist_normal)
+)
+ 
+Amplitude_dist_normal  normal_distribution  
+(
+  std              : 0.2
+)
+ 
+Phase_dist_normal  normal_distribution  
+(
+  std              : 3.0
+)
+ 
+spherical_cut  spherical_cut  
+(
+  coor_sys         : ref(cut_coor),
+  theta_range      : struct(start: -180.0, end: 180.0, np: 361),
+  phi_range        : struct(start: 0.0, end: 90.0, np: 3)
+)
+ 
+//DO NOT MODIFY OBJECTS BELOW THIS LINE.
+//THESE OBJECTS ARE CREATED AND MANAGED BY THE
+//GRAPHICAL USER INTERFACE AND SHOULD NOT BE
+//MODIFIED MANUALLY!
+view_1  view  
+(
+  objects          : sequence(ref(output_points_plot_for_view_1),ref(reflector_plot_for_view_1),
+ref(feed_plot_for_view_1),ref(coor_sys_plot_for_view_1))
+)
+ 
+output_points_plot_for_view_1  output_points_plot  
+(
+)
+ 
+reflector_plot_for_view_1  reflector_plot  
+(
+  surface_colour   : struct(r: 0.72156862745098, g: 0.450980392156863, b: 0.2)
+)
+ 
+feed_plot_for_view_1  feed_plot  
+(
+  surface_colour   : struct(r: 0.72156862745098, g: 0.450980392156863, b: 0.2)
+)
+ 
+coor_sys_plot_for_view_1  coor_sys_plot  
+(
+)
+ 
+ //$$ Saved at 11:42:20 on 07.06.2022 by TICRA Tools 22.0 SN=009627
+  
