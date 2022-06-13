@@ -53,7 +53,44 @@ def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = 
         
         cbar = plt.colorbar(im,ax=axs[i])
         cbar.set_label(param_names[i])
+
+def plotParameterColoredLatentSpaceFromAutoencoder(dataset,model,param_names = None,pca_components = (1,2),figsize = (14,2.75),title = None, layout_shape = None):
+
+    
+
+    pca_components = [x-1 for x in pca_components] # Switch to zero-index
+    num_samples = len(dataset)
+    
+    dataloader = DataLoader(dataset,batch_size=num_samples)
+    params, fields  = next(iter(dataloader))
+    num_params = len(params.T)
+
+    projection = model.encode(fields.reshape(num_samples,-1))[:,list(pca_components)]
+
+
+    if param_names is None:
+        param_names = ['Parameter '+str(x) for x in range(0,num_params)]
+    
+    
+    if layout_shape is not None:
+        fig, axs = plt.subplots(nrows = layout_shape[0], ncols =  layout_shape[1],figsize = figsize,tight_layout = True)
+    else:
+        fig, axs = plt.subplots(nrows = 1, ncols = num_params,figsize = figsize,tight_layout = True)
+
+    
+    if type(title) == type(None):
+        fig.suptitle(dataset.name +' AE Projection With Parameter Coloring', fontsize = 16)
+    else:
+        fig.suptitle(title, fontsize = 16)
+
+    axs = axs.flatten() # Ensure flat axis array
+    axs[0].set_ylabel('AE '+str(pca_components[1]+1))
+    for i in range(num_params):
+        im = axs[i].scatter(projection[:,0].detach(),projection[:,1].detach(),c = params[:,i],cmap = 'plasma')
+        axs[i].set_xlabel('AE '+str(pca_components[0]+1))
         
+        cbar = plt.colorbar(im,ax=axs[i])
+        cbar.set_label(param_names[i])     
 
 def plotPCAVariance(dataset,num_components = 10, dataset_name = None):
 

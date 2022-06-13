@@ -8,6 +8,9 @@ from ssapp.data.AntennaDatasetLoaders import train_test_data_split
 
 
 
+
+
+
 def save_eps_figure(filename, subfolder = None, format = 'eps'):
     
     main_dir = Path().cwd().parents[1]
@@ -42,6 +45,9 @@ class FigureSaver():
     def get_save_path(self):
         
         return self.fig_dir
+
+    def __call__(self,filename,save_format = 'default', fig = None):
+        self.save(filename,save_format, fig)
             
 
 def genModelComparison(dataset: Dataset, benchmark_models: dict, test_metrics: dict, train_test_ratio = 0.7):

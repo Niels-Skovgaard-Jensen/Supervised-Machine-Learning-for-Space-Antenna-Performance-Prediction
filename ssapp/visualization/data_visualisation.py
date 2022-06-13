@@ -7,23 +7,36 @@ from torch.utils.data.dataloader import DataLoader
 
 
 
-def plot_dataset_field_example(dataset,idx):
+def plot_dataset_field_example(dataset,idx,ylim = None):
     params, fields = next(iter(DataLoader(dataset, batch_size=len(dataset))))
 
-    phi_name = ['$\phi$ = 0\degree','\phi$ = 45\degree','\phi$ = 90\degree']
+    phi_name = ['$\phi = 0\degree$','$\phi = 45\degree$','$\phi = 90\degree$']
 
-    mag_co = lambda a,i: 20*np.log10(a[i,:,:,0],a[i,:,:,1]) # Convert fields to dB power plots, copolar
-    mag_cross = lambda a,i: 20*np.log10(a[i,:,:,2],a[i,:,:,3]) # -||-, crosspolar
+    mag_co = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,0]**2+a[i,:,:,1]**2)) # Convert fields to dB power plots, copolar
+    mag_cross = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,2]**2+a[i,:,:,3]**2)) # -||-, crosspolar
 
     theta = np.linspace(-180,180,361) # Generate theta values for x-axis
 
     print(mag_co(fields,idx))
     # Plots
-    plt.figure()
-    plt.plot(theta,mag_co(fields,idx))
-    plt.xlabel(r'\theta')
-    plt.figure()
-    plt.plot(theta,mag_cross(fields,idx))
+    fig, axs = plt.subplots(nrows = 1, ncols = 2,figsize = (9,2.8),tight_layout = True)
+    axs[0].plot(theta,mag_co(fields,idx),label = phi_name)
+    axs[0].set_xlabel(r'$\theta\degree$')
+    axs[0].set_title(r'$E_{co}$')
+    axs[0].grid(True)
+    axs[0].set_ylabel('$|E|$ dB')
+    axs[0].set_xlim([-180,180])
+    fig.legend(loc='lower center',ncol=3)
+    if type(ylim) is not type(None):
+        axs[0].set_ylim(ylim)
+
+
+
+    axs[1].plot(theta,mag_cross(fields,idx),label = phi_name)
+    axs[1].grid()
+    axs[1].set_xlabel(r'$\theta\degree$')
+    axs[1].set_title(r'$E_{cross}$')
+    axs[1].set_xlim([-180,180])
 
 
 
