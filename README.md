@@ -14,8 +14,14 @@ Easiest way to install is simply to make a new virtual enviornment with python 3
 ```
 python install -r requirements.txt
 ```
+
+If you just want to use the package
 ```
 python setup.py install
+```
+If you want to edit in the package:
+```
+python setup.py develop
 ```
 
 The project is structured roughly in accordance with the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).
