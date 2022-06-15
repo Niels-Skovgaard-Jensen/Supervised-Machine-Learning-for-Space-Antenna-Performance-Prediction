@@ -17,7 +17,6 @@ def plot_dataset_field_example(dataset,idx,ylim = None):
 
     theta = np.linspace(-180,180,361) # Generate theta values for x-axis
 
-    print(mag_co(fields,idx))
     # Plots
     fig, axs = plt.subplots(nrows = 1, ncols = 2,figsize = (9,2.8),tight_layout = True)
     axs[0].plot(theta,mag_co(fields,idx),label = phi_name)

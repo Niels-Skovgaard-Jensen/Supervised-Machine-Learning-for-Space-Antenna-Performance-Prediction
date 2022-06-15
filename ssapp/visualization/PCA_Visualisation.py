@@ -3,6 +3,8 @@ import numpy as np
 import torch
 import seaborn as sns
 from torch.utils.data.dataloader import DataLoader
+from ssapp.data.AntennaDatasetLoaders import load_serialized_dataset
+from ssapp.data.Metrics import relRMSE
 from sklearn.decomposition import PCA
 import sklearn
 
@@ -109,6 +111,53 @@ def plotPCAVariance(dataset,num_components = 10, dataset_name = None):
     plt.xlabel('PCA Number')
     plt.ylabel('Variance Explained %')
     plt.title(dataset.name+' Variance Explained by Prinicipal Components')
+
+def plotAllDatasetPCAReconstructionLoss(dataset_names,num_components = 10, figsize = (14,2.75)):
+
+    ## Plot PCA Reconstruction Loss for all datasets
+
+    ## Iterate over all datatsets
+    for dataset_name in dataset_names:
+
+        
+        train_dataset = load_serialized_dataset(dataset_name+'_Train')
+        val_dataset = load_serialized_dataset(dataset_name+'_Val')
+
+        ## Get parameters and fields
+        train_params, train_fields = next(iter(DataLoader(train_dataset,batch_size=len(train_dataset))))
+        val_params, val_fields = next(iter(DataLoader(val_dataset,batch_size=len(val_dataset))))
+
+        ## Get PCA components
+        pca = sklearn.decomposition.PCA(n_components = num_components)
+
+        ## Fit pca to training data
+        pca.fit(train_fields.reshape(len(train_dataset),-1))
+
+        ## Project training data
+        train_projection = pca.transform(train_fields.reshape(len(train_dataset),-1))
+
+        ## Project validation data
+        val_projection = pca.transform(val_fields.reshape(len(val_dataset),-1))
+
+        for i in range(len(train_projection.T)):
+            plt.figure(figsize = figsize)
+            
+            ## Reconstruct training data
+            train_reconstruction = pca.inverse_transform(train_projection)
+
+            ## Reconstruct validation data
+            val_reconstruction = pca.inverse_transform(val_projection)
+
+        ## Calculate reconstruction loss
+        train_reconstruction_loss = relRMSE(train_fields,train_reconstruction)
+
+        
+
+
+
+    
+
+
 
 
 def plot3DPCA(dataset, 
