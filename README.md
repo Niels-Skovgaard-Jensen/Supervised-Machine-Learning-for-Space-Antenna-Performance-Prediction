@@ -12,7 +12,7 @@ For overview and mathy stuff look [here](https://skoogydan.github.io/Supervised-
 Easiest way to install is simply to make a new virtual enviornment with python 3.8.11 and run
 
 ```
-python install requirements.txt
+python install -r requirements.txt
 ```
 ```
 python setup.py install
