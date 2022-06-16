@@ -12,10 +12,16 @@ For overview and mathy stuff look [here](https://skoogydan.github.io/Supervised-
 Easiest way to install is simply to make a new virtual enviornment with python 3.8.11 and run
 
 ```
-python install requirements.txt
+python install -r requirements.txt
 ```
+
+If you just want to use the package
 ```
 python setup.py install
+```
+If you want to edit in the package:
+```
+python setup.py develop
 ```
 
 The project is structured roughly in accordance with the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).
