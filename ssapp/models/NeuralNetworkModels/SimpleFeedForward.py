@@ -85,7 +85,7 @@ class ConfigurableFFN(nn.Module):
     
 
 
-class PDRN(nn.Module):
+class PDNN(nn.Module):
     """
     phi_k - number of neurons in last layer
     s_c - Triangle Scaling factor, higher means more pyramidal, 1 is flat
@@ -104,7 +104,7 @@ class PDRN(nn.Module):
                 s_c = 1.2,
                 alpha = 0.01,
                 output_size= 361*3*4):
-        super(PDRN, self).__init__()
+        super(PDNN, self).__init__()
 
         # Calculate size of layers from eq.3 [1]
         layer_count = lambda layer : int(np.ceil(phi_k*(s_c**(num_layers-layer))))
@@ -133,11 +133,15 @@ class PDRN(nn.Module):
         output = output.reshape(batch_size,361,3,4)
         return output
 
+    def get_number_of_parameters(self):
+        return sum(p.numel() for p in self.parameters() if p.requires_grad)
+
+        
 class FCResNetBlock(nn.Module):
     """
     Implementation of fully connected Residual Network block
     """
-
+    pass
     
 
 
@@ -160,7 +164,7 @@ class ResNetPDRN(nn.Module):
                 s_c = 1.2,
                 alpha = 0.01,
                 output_size= 361*3*4):
-        super(PDRN, self).__init__()
+        super(ResNetPDRN, self).__init__()
 
         # Calculate size of layers from eq.3 [1]
         layer_count = lambda layer : int(np.round(phi_k*(s_c**(num_layers-layer))))
