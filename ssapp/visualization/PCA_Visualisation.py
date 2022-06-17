@@ -1,3 +1,4 @@
+from cProfile import label
 from matplotlib import pyplot as plt
 import numpy as np
 import torch
@@ -48,10 +49,10 @@ def plotParameterColoredLatentSpace(dataset,param_names = None,pca_components = 
         fig.suptitle(title, fontsize = 16)
 
     axs = axs.flatten() # Ensure flat axis array
-    axs[0].set_ylabel('PCA '+str(pca_components[1]+1))
+    axs[0].set_ylabel('PC '+str(pca_components[1]+1))
     for i in range(num_params):
         im = axs[i].scatter(projection[:,0],projection[:,1],c = params[:,i],cmap = 'plasma')
-        axs[i].set_xlabel('PCA '+str(pca_components[0]+1))
+        axs[i].set_xlabel('PC '+str(pca_components[0]+1))
         
         cbar = plt.colorbar(im,ax=axs[i])
         cbar.set_label(param_names[i])
@@ -294,7 +295,7 @@ def plotInverseTransformStandardPCA(dataset,
 
 
     axs = subfigs[1].subplots(nrows=num_rows,ncols = num_cols, sharex='all', sharey='row')
-
+    
     latent_pred_point = np.zeros(shape = (max(pca_components)+1))
     
     for i,ax in enumerate(axs.flatten()):
@@ -308,20 +309,18 @@ def plotInverseTransformStandardPCA(dataset,
                 plot_field = transform(pred[0,:,phi,0],pred[0,:,phi,1])
             elif component == 'cross':
                 plot_field = transform(pred[0,:,phi,2],pred[0,:,phi,3])
-            ax.plot(theta,plot_field)
+            ax.plot(theta,plot_field,label = phi_labels)
             temp_min = min(temp_min,min(plot_field))
             temp_max = max(temp_max,max(plot_field))
+
         
 
         if plot_scaling:
             ax.set_ylim([max(-150,temp_min),temp_max*1.2])
-            
-        
-        
 
         ax.set_xlim([-180,180])
         
-    
+    subfigs[1].legend(loc = 'lower center',ncol = len(phi_labels))
 
     for ax in axs[-1,:]:
         ax.set_xlabel(r'$\theta\degree$')

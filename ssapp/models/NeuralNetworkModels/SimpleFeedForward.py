@@ -91,13 +91,11 @@ class PDNN(nn.Module):
     s_c - Triangle Scaling factor, higher means more pyramidal, 1 is flat
     alpha - leakyReLU leak factor
 
-
     This is a pyramidal neural network inspired by the paper
     [1] Accurate Modeling of Antenna Structures by Means of Domain Confinement and Pyramidal Deep Neural Networks
     by
     Slawomir Koziel, Nurullah Çalik, Peyman Mahouti, and Mehmet A. Belen
     """
-    
     def __init__(self,input_size = 3,
                 num_layers= 3,
                 phi_k = 64,

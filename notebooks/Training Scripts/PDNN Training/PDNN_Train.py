@@ -108,7 +108,7 @@ for epoch in range(CONFIG["epochs"]):
         loss.backward()
         optimizer.step()
     
-    # Caluclate make validation evaluation
+    # Calculate validation evaluation
     epoch_val_loss = 0
     epoch_val_targets = 0
     with torch.no_grad():
@@ -166,5 +166,4 @@ for epoch in range(CONFIG["epochs"]):
     print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}".format(epoch + 1, CONFIG["epochs"], loss,epoch_val_loss))
     
 
-print('Training time:', datetime.now()-startTime)
 
