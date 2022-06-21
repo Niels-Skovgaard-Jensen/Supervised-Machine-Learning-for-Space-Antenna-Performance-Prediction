@@ -26,16 +26,18 @@ def relRMSE(y_pred, y_true, sample_weights=None):
         assert len(sample_weights) == len(y_true)
         return np.dot(sample_weights, np.sqrt(nomin / denom)) / sum(sample_weights)
 
-def relRMSE_pytorch(y_pred, y_true, sample_weights=None):
+def relRMSE_pytorch(y_pred: torch.tensor, y_true: torch.tensor, sample_weights=None):
     """Torch Implementation of relRMSE"""
-    assert type(y_true) == type(torch.tensor([]))
-    assert type(y_pred) == type(torch.tensor([]))
+    assert type(y_true) == type(torch.tensor([])), "y_true has to be type torch.tensor"
+    assert type(y_pred) == type(torch.tensor([])), "y_pred has to be type torch.tensor"
 
+    # Flatten arrays for element-to-element comparison (Probably is not needed, but has low overhead)
     y_pred = y_pred.flatten()
     y_true = y_true.flatten()
 
-    assert len(y_true) == len(y_pred)
-
+    assert len(y_true) == len(y_pred), "y_true and y_pred should have same number of elements"
+    
+    # Delete elements that lead to singularities
     if torch.any(y_true == 0):
         idx = torch.where(y_true == 0)
         y_true = torch.delete(y_true, idx)
@@ -44,8 +46,11 @@ def relRMSE_pytorch(y_pred, y_true, sample_weights=None):
             sample_weights = torch.tensor(sample_weights)
             sample_weights = torch.delete(sample_weights, idx)
 
+    # Calculate nominator and denominator in relRMSE expression
     nomin = ((y_true - y_pred)**2).sum()
     denom = ((torch.abs(y_true))**2).sum() + 1.0e-9
+
+    # Apply sample weighting if given as argument, else return result
     if type(sample_weights) == type(None):
         return torch.sqrt(nomin / denom)
     else:
@@ -55,9 +60,7 @@ def relRMSE_pytorch(y_pred, y_true, sample_weights=None):
 
 
 def relRMSEComplex(y_pred, y_true, sample_weights=None, co_cross_norm = lambda co,cross : np.sqrt(co**2+cross**2)):
-    """Better relative MSE implementation than the sklearn version (which can yield NANs!)"""
-    """See https://alex.miller.im/posts/linear-model-custom-loss-function-regularization-python/"""
-    """ Expecting both y to have dimensions size (num_samples,theta,phi,2*num_complex_values)"""
+    """relRMSE using complex tensors"""
 
     if type(y_true) is not type(np.complex) or type(y_pred) is not type(np.complex):
         y_true = np.array(y_true).view(dtype=np.complex)

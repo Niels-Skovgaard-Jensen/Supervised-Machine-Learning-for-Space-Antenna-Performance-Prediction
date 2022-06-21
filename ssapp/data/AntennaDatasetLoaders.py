@@ -272,8 +272,9 @@ class ReflectorCutDataset2(Dataset):
             self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
         
         ## Convert to tensors
-        self.field_cut = torch.tensor(self.field_cut)
-        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        self.field_cut = torch.tensor(self.field_cut,dtype = torch.float)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters,dtype = torch.float)
+        ## Apply to device?
 
     def __len__(self):
         return self.cuts
@@ -286,8 +287,7 @@ class ReflectorCutDataset2(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
-        parameters = torch.tensor(self.antenna_parameters[idx,:])
-        
+        parameters = self.antenna_parameters[idx,:]
         
         if self.flatten_output:
             field_val = self.field_cut[idx,:,:].flatten()
@@ -458,8 +458,9 @@ class PatchAntennaDataset(Dataset):
             self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
         
         ## Convert to tensors
-        self.field_cut = torch.tensor(self.field_cut)
-        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        self.field_cut = torch.tensor(self.field_cut,dtype = torch.float)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters,dtype = torch.float)
+        ## Apply to device?
 
     def __len__(self):
         return self.cuts
@@ -470,7 +471,7 @@ class PatchAntennaDataset(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
-        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        parameters = self.antenna_parameters[idx,:]
         
         
         if self.flatten_output:
@@ -528,8 +529,8 @@ class PatchAntennaDataset2(Dataset):
             self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
         
         ## Convert to tensors
-        self.field_cut = torch.tensor(self.field_cut)
-        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        self.field_cut = torch.tensor(self.field_cut,dtype = torch.float)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters,dtype = torch.float)
         ## Apply to device?
 
     def __len__(self):
@@ -540,7 +541,7 @@ class PatchAntennaDataset2(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
-        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        parameters = self.antenna_parameters[idx,:]
         
         
         if self.flatten_output:
@@ -622,8 +623,8 @@ class CircularHornDataset1(Dataset):
             self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
         
         ## Convert to tensors
-        self.field_cut = torch.tensor(self.field_cut)
-        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        self.field_cut = torch.tensor(self.field_cut,dtype = torch.float)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters,dtype = torch.float)
     def __len__(self):
         return self.cuts
     
@@ -633,7 +634,7 @@ class CircularHornDataset1(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
-        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        parameters = self.antenna_parameters[idx,:]
 
         field_val = self.field_cut[idx,:,:]
 
@@ -675,8 +676,8 @@ class MLADataset1(Dataset):
             self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
         
         ## Convert to tensors
-        self.field_cut = torch.tensor(self.field_cut)
-        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+        self.field_cut = torch.tensor(self.field_cut,dtype = torch.float)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters,dtype = torch.float)
     def __len__(self):
         return self.cuts
     
@@ -685,8 +686,12 @@ class MLADataset1(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
+
         
-        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        
+        parameters = self.antenna_parameters[idx,:]
+
+        assert type(parameters) == type(torch.tensor([]))
 
         field_val = self.field_cut[idx,:,:]
 
