@@ -24,6 +24,7 @@ If you want to edit in the package:
 python setup.py develop
 ```
 
+
 The project is structured roughly in accordance with the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).
 ```
 ├── LICENSE
@@ -60,4 +61,10 @@ The project is structured roughly in accordance with the [cookiecutter data scie
 │   │
 │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
 │       └── visualize.py
+```
+
+
+All of the datasets are included in a raw .txt format in the repository, but they are used in serialized form throughout the package and notebooks. To turn all the datatsets into serialized form the SerializeAllDatasets script can be used. Inside the script.
+```
+python usr/Supervised-Machine-Learning-for-Space-Antenna-Performance-Prediction\notebooks\Training Scripts\SerializeAllDatasets.py
 ```

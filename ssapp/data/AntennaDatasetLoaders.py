@@ -109,7 +109,7 @@ def serialise_all_datasets(split = None):
 def train_test_data_split(dataset, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
 
     train_len = int(len(dataset)*TRAIN_TEST_RATIO)
-    train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len])    
+    train_set, test_set = random_split(dataset, [train_len, len(dataset) - train_len],generator=torch.Generator().manual_seed(42))    
     return train_set, test_set
 
 def train_test_dataloader_split(dataset, batch_size, TRAIN_TEST_RATIO = 0.7, set_random_seed = True):
@@ -206,7 +206,6 @@ class ReflectorCutDataset(Dataset):
         ## Convert to tensors
         self.field_cut = torch.tensor(self.field_cut)
         self.antenna_parameter = torch.tensor(self.antenna_parameters)
-        ## Apply to device?
 
     def __len__(self):
         return self.cuts

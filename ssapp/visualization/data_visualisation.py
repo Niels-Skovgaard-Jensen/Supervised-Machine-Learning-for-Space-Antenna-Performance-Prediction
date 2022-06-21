@@ -67,3 +67,14 @@ def plot_dataset_timeseries_histogram(dataset):
                                 norm=LogNorm(), rasterized=True)
         fig.colorbar(pcm, ax=ax, label="# points", pad=0)
         ax.set_title("2d histogram and log color scale")
+
+def plotExampleFromFieldTensor(fields,idx):
+
+    phi_name = ['$\phi = 0\degree$','$\phi = 45\degree$','$\phi = 90\degree$']
+
+    mag_co = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,0]**2+a[i,:,:,1]**2)) # Convert fields to dB power plots, copolar
+    mag_cross = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,2]**2+a[i,:,:,3]**2)) # -||-, crosspolar
+
+    theta = np.linspace(-180,180,361) # Generate theta values for x-axis
+
+    # Plots
