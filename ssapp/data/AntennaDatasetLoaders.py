@@ -297,7 +297,76 @@ class ReflectorCutDataset2(Dataset):
             
         return parameters, field_val
 
+class ReflectorAntennaDataset3(Dataset):
+    """
+    To use for loading and parsing the ReflectorAntennaDataset3"""
 
+    def __init__(self, cuts = 3600,
+                 flatten_output = False,
+                 standardized_parameters = False):
+        """
+        Args:
+            cut (integer) : Integer name of file in directory
+            flatten_output (Boolean) : Flattens output into [cuts, 4004]
+            standardized_parameters : Standarizes the dataset for every parameter
+            
+        """
+        self.cuts = cuts
+        self.flatten_output = flatten_output
+        self.name = 'RFLCT'
+
+        # Define data placement
+        cut_dir, param_dir = get_raw_dataset_path('ReflectorAntennaDataset3')
+        param_file = param_dir / 'lookup.log'
+        
+        self.antenna_parameters = np.genfromtxt(param_file, skip_header=1,skip_footer=3600-cuts,dtype = np.float32)
+        self.antenna_parameters = self.antenna_parameters.reshape(cuts,4)[:,1:4]
+
+        ## Kinda hardcoded fix, might want to automate it a little more
+        file_to_open = cut_dir / '0.cut'
+        V_INI, V_INC, V_NUM, C, ICOMP, ICUT, NCOMP = np.genfromtxt(file_to_open, max_rows=1, skip_header=1)
+        self.V_NUM = int(V_NUM)
+
+        self.thetas = np.linspace(V_INI,V_INI+V_INC*(self.V_NUM-1),int(self.V_NUM))
+        # Generate First Cut
+        self.field_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+        for i in range(1,3):
+                self.field_cut=np.append(self.field_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+        # Then append to that cut
+        for i in range(1,cuts):
+            file_to_open = cut_dir / (str(i)+'.cut')
+            phi_cut = np.genfromtxt(file_to_open, skip_header=2, max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4)
+            for i in range(1,3):
+                phi_cut=np.append(phi_cut, np.genfromtxt(file_to_open, skip_header=2+i*(self.V_NUM+2), max_rows= self.V_NUM).reshape(1,self.V_NUM,1,4),axis=2)
+
+            self.field_cut = np.append(self.field_cut,phi_cut,axis = 0)
+        
+        ## Convert to tensors
+        self.field_cut = torch.tensor(self.field_cut)
+        self.antenna_parameter = torch.tensor(self.antenna_parameters)
+
+    def __len__(self):
+        return self.cuts
+    
+    def to(self,device):
+        self.field_
+
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        
+        parameters = torch.tensor(self.antenna_parameters[idx,:])
+        
+        
+        if self.flatten_output:
+            field_val = self.field_cut[idx,:,:].flatten()
+        else:
+            field_val = self.field_cut[idx,:,:]
+
+            
+        return parameters, field_val
 
 class ReflectorCutDatasetComplex(ReflectorCutDataset):
     """Reflector Dataset Complex representation
