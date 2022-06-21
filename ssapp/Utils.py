@@ -4,7 +4,7 @@ from torch.utils.data import random_split, Dataset
 from torch.utils.data.dataloader import DataLoader
 from matplotlib import pyplot as plt
 from ssapp.data.AntennaDatasetLoaders import train_test_data_split
-
+import numpy as np
 
 
 
@@ -49,6 +49,9 @@ class FigureSaver():
 
     def __call__(self,filename,save_format = 'default', fig = None):
         self.save(filename,save_format, fig)
+
+def mag_transform(a, idx, ):
+    return 20*np.log10(np.sqrt(a[:,:,0]**2+a[:,:,1]**2))
             
 
 def genModelComparison(dataset: Dataset, benchmark_models: dict, test_metrics: dict, train_test_ratio = 0.7):
