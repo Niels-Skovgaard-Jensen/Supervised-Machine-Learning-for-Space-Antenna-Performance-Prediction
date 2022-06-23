@@ -36,10 +36,10 @@ def saveModel(model,name, subfolder = None,extra_step_back=0):
 
     return True
 
-def loadModel(model,name, subfolder = None):
+def loadModel(model,name, subfolder = None,extra_step_back=0):
     assert type(name) == type(str())
 
-    models_dir = getSaveModeldir()
+    models_dir = getSaveModeldir(extra_step_back=extra_step_back)
     if subfolder is None:
         PATH = models_dir / name
     else:

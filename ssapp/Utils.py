@@ -24,9 +24,9 @@ def save_eps_figure(filename, subfolder = None, format = 'eps'):
 
 class FigureSaver():
 
-    def __init__(self,subfolder = '', default_format = 'eps',bbox_inches='tight',dpi = 300):
+    def __init__(self,subfolder = '', default_format = 'eps',bbox_inches='tight',dpi = 300,exstra_back_step = 0):
         self.bbox_inches = bbox_inches
-        main_dir = Path().cwd().parents[1]
+        main_dir = Path().cwd().parents[1+exstra_back_step]
         fig_dir = main_dir / 'reports' / 'figures'
         self.fig_dir = fig_dir / subfolder
         self.format = default_format

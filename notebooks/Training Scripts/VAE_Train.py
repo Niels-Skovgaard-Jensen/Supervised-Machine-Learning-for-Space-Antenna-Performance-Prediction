@@ -23,7 +23,7 @@ val_dataset = load_serialized_dataset('CircularHornDataset1_Val',extra_back_step
 
 train_len = len(train_dataset)
 val_len = len(val_dataset)
-config = {'latent_size': 5,
+config = {'latent_size': 2,
             'coder_channel_1': 32,
             'coder_channel_2': 128,
             'batch_size' : 32}
@@ -31,8 +31,8 @@ config = {'latent_size': 5,
 train_dataloader = DataLoader(train_dataset,batch_size=config['batch_size'])
 val_dataloader = DataLoader(val_dataset,batch_size=config['batch_size'])
 
-#model = VAE(config)
-model = AutoencoderFullyConnected()
+model = VAE(config)
+#model = AutoencoderFullyConnected()
 model.to(device)
 model.double()
 

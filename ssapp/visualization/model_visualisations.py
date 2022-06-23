@@ -1,23 +1,81 @@
 from matplotlib import pyplot as plt
 import numpy as np
+import seaborn as sns
 
 
 def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,include_phase = False):
 
     assert pred.shape == field.shape
-    assert pred.shape[1:3] == (361,3,4),"Prediction shape must be (batch_size,361,3,4)"
+
     assert idx < len(pred),"Index must be less than batch_size"
 
-    fig,axs = plt.subplots(ncols=2,nrows=1,figsize = (12,4))
+    if pred.shape[1:4] != (361,3,4):
+        pred = pred.reshape(-1,361,3,4)
+    if field.shape[1:4] != (361,3,4):
+        field = field.reshape(-1,361,3,4)
 
-    mag_co = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,0]**2+a[i,:,:,1]**2)) # Convert fields to dB power plots, copolar
-    mag_cross = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,2]**2+a[i,:,:,3]**2)) # -||-, crosspolar
+    theta = np.linspace(-180,180,361)
+    fig,axs = plt.subplots(ncols=2,nrows=1,figsize = (10,3.2))
 
-    axs[0].plot(pred[idx,:,phi_cuts,0],pred[idx,:,phi_cuts,1],label = 'Prediction')
-    axs[0].plot(field[idx,:,phi_cuts,0],field[idx,:,phi_cuts,1],label = 'Truth')
+    pred = pred.detach().numpy()
+    field = field.detach().numpy()
+
+    mag_co = lambda a,i,pc: 20*np.log10(np.sqrt(a[i,:,pc,0]**2+a[i,:,pc,1]**2)) # Convert fields to dB power plots, copolar
+    mag_cross = lambda a,i,pc: 20*np.log10(np.sqrt(a[i,:,pc,2]**2+a[i,:,pc,3]**2)) # -||-, crosspolar
+    phi_labels = ['$\phi = 0$','$\phi = 45\degree$','$\phi = 90\degree$']
+    sns.set_theme()
+    plt.style.use('default')
+
+    for phi_cut in phi_cuts:
+
+        
+
+        axs[0].plot(theta,mag_co(field,idx,phi_cut).T,
+                    color='C'+str(phi_cut*2),
+                    label = 'Truth at '+phi_labels[phi_cut]
+                    ,linewidth = 2)
+
+        axs[0].plot(theta,mag_co(pred,idx,phi_cut).T,
+                    color='C'+str(phi_cut*2+1),
+                    linestyle = '--',
+                    linewidth = 2)
+        axs[0].set_ylabel('$|E_{co}|$ dB')
+        axs[0].set_xlabel(r'$\theta\degree$')
+        #axs[0].set_title('$E_{co}$')
+        axs[0].grid(True)
+        axs[0].set_xlim([-180,180])
+        axs[0].set_xticks([-180,-90,0,90,180])
+
+    for phi_cut in phi_cuts:
+        axs[1].plot(theta,mag_cross(field,idx,phi_cut).T,
+                    color='C'+str(phi_cut*2),
+                    linewidth = 2)
+        
+        axs[1].plot(theta,mag_cross(pred,idx,phi_cut).T,
+                    label = 'Prediction at '+phi_labels[phi_cut],
+                    color='C'+str(phi_cut*2+1),
+                    linestyle = '--',
+                    linewidth = 2)
+
+
+
+                    
+        axs[1].set_ylabel('$|E_{cross}|$ dB')
+        axs[1].set_xlabel(r'$\theta\degree$')
+        axs[1].grid()
+        #axs[1].set_title('$E_{cross}$')
+        axs[1].grid(True)
+        axs[1].set_xlim([-180,180])
+        axs[1].set_xticks([-180,-90,0,90,180])
+
     
-    axs[1].plot(pred[idx,:,phi_cuts,0],pred[idx,:,phi_cuts,1],label = 'Prediction')
-    axs[1].plot(field[idx,:,phi_cuts,0],field[idx,:,phi_cuts,1],label = 'Truth')
+    
+
+   
+    fig.legend(ncol=2,loc = 'lower center',bbox_to_anchor = (0.51,-0.21))
+    # Set figure title
+    if title is not None:
+        fig.suptitle(title)
 
 
 
