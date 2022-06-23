@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     dataset_constructors = [
                             #MLADataset1,
-                            #eflectorCutDataset2,
+                            ReflectorAntennaDataset3,
                             #PatchAntennaDataset2,
                             CircularHornDataset1
                             ]

@@ -25,16 +25,16 @@ torch.manual_seed(42) # Manual seed for sanity
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 DEFAULT_CONFIG = {
-    "learning_rate": 3e-4,
+    "learning_rate": 1e-4,
     "epochs": 500,
-    "batch_size": 4,
-    'num_layers':6,
-    'phi_k' : 1500,
-    's_c' : 1.2,
-    'alpha': 0.00,
-    'dataset': 'CircularHornDataset1',
-    #'dataset': 'PatchAntennaDataset2',
-    #'dataset': 'ReflectorCutDataset2',
+    "batch_size": 32,
+    'num_layers':8,
+    'phi_k' : 2000,
+    's_c' : 1.4,
+    'alpha': 0.08,
+    #'dataset': 'CircularHornDataset1',
+    'dataset': 'PatchAntennaDataset2',
+    #'dataset': 'RFLCT',
     #'dataset': 'MLADataset1'
     }
 
@@ -43,7 +43,7 @@ if DEFAULT_CONFIG['dataset'] == 'CircularHornDataset1':
     project = "CHA_PDNN"
 elif DEFAULT_CONFIG['dataset'] == 'PatchAntennaDataset2':
     project = 'PATCH_PDNN'
-elif DEFAULT_CONFIG['dataset'] == 'ReflectorCutDataset2':
+elif DEFAULT_CONFIG['dataset'] == 'RFLCT':
     project = 'RFLCT_PDNN'
 elif DEFAULT_CONFIG['dataset'] == 'MLADataset1':
     project = 'MLA_PDNN'
@@ -99,7 +99,7 @@ criterion = relRMSE_pytorch # Custom loss function for relative RMSE
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=CONFIG['learning_rate']) 
 
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[CONFIG['epochs']*x for x in [0.5,0.6,0.7,0.8,0.9]], verbose = True,gamma = 0.5)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[CONFIG['epochs']*x for x in [0.6,0.9]], verbose = True,gamma = 0.1)
 
 train_loss_array = []
 test_loss_array = []
@@ -146,7 +146,7 @@ for epoch in range(CONFIG["epochs"]):
             val_fields = val_fields.to(device)
             
             prediction = model(val_params)
-            loss = criterion(input = prediction, target = val_fields)
+            loss = criterion(prediction, val_fields)
             epoch_val_loss += loss*(batch_size/val_size)
 
 
