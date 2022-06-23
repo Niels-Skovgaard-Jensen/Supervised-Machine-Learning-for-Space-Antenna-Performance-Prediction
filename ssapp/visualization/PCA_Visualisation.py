@@ -1,5 +1,5 @@
 from cProfile import label
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt, rcParams
 import numpy as np
 import torch
 import seaborn as sns
@@ -195,7 +195,8 @@ def plot3DContour(dataset,
                 param = 0,
                 dataset_name = None,
                 view_init=(55,0),
-                proj_scalers = (2.5,2.5,2.5)):
+                proj_scalers = (2.5,2.5,2.5),
+                figsize = (8,8)):
     assert len(pca_components) == 3
     dataset_name = dataset.name
     pca_components = [x-1 for x in pca_components] # Switch to zero-index
@@ -219,7 +220,7 @@ def plot3DContour(dataset,
 
     X_max,Y_max,Z_max = (min(X),max(Y),min(Z))
 
-    fig = plt.figure(figsize = (8,8))
+    fig = plt.figure(figsize = figsize)
     ax = fig.add_subplot(projection='3d')
     ax.scatter(X, Y, Z,c = params[:,param],cmap = 'plasma',depthshade=True,s=size)
 
@@ -231,6 +232,8 @@ def plot3DContour(dataset,
     ax.set_xlabel('PCA'+str(pca_components[0]+1))
     ax.set_ylabel('PCA'+str(pca_components[1]+1))
     ax.set_zlabel('PCA'+str(pca_components[2]+1))
+    rcParams['axes.labelpad'] = 10
+
     
 
 
@@ -243,7 +246,7 @@ def plotInverseTransformStandardPCA(dataset,
                                     plot_latent_space = False,
                                     num_std_dev = 1,
                                     phi_cut = [0],
-                                    phi_labels = None,
+                                    phi_labels = [r'$\phi = 0\degree$',r'$\phi = 45\degree$',r'$\phi = 90\degree$'],
                                     num_rows = 3,
                                     num_cols = 3,
                                     component = 'co',
@@ -320,7 +323,7 @@ def plotInverseTransformStandardPCA(dataset,
 
         ax.set_xlim([-180,180])
         
-    subfigs[1].legend(loc = 'lower center',ncol = len(phi_labels))
+    #subfigs[1].legend(loc = 'lower center',ncol = len(phi_labels))
 
     for ax in axs[-1,:]:
         ax.set_xlabel(r'$\theta\degree$')
@@ -466,7 +469,7 @@ def closestIdxFromParams(dataset,params):
     return find_nearest()
 
 
-def plotGPvsPCADimensions(dataset, max_number_pca = 20):
+def plotGPvsPCADimensions(dataset, max_number_pca = 20,kernel = None,title='PCA and Latent-Regression Reconstruction Loss'):
     from ssapp.Utils import train_test_data_split
     from ssapp.data.Metrics import relRMSE
     from sklearn.decomposition import PCA
@@ -487,8 +490,8 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
     Number_PCAs = []
 
     sweep_info = {
-            'PCR Train Rec. Loss': [],
-            'PCR Validation Rec. Loss': [],
+            'PCA Train Rec. Loss': [],
+            'PCA Validation Rec. Loss': [],
             'GP Train Latent Loss': [],
             'GP Validation Latent Loss': [],
             'GP-PCA Train Rec. Loss': [],
@@ -502,8 +505,11 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
             }
 
     # Make direct prediction baseline
-
-    gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS,TRAIN_FIELDS.reshape(len(TRAIN_FIELDS),-1))
+    if type(kernel) == type(None):
+        gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS,TRAIN_FIELDS.reshape(len(TRAIN_FIELDS),-1))
+    else:
+        gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor(kernel=kernel))]).fit(TRAIN_PARAMS,TRAIN_FIELDS.reshape(len(TRAIN_FIELDS),-1))
+        
     train_baseline = relRMSE(TRAIN_FIELDS.flatten(), gpr.predict(TRAIN_PARAMS).flatten())
     test_baseline = relRMSE(TEST_FIELDS.flatten(), gpr.predict(TEST_PARAMS).flatten())
 
@@ -524,8 +530,8 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
         sweep_info['GP Train Latent Loss'].append(relRMSE(gpr.predict(TRAIN_PARAMS), pca_train))
         sweep_info['GP Validation Latent Loss'].append(relRMSE(gpr.predict(TEST_PARAMS),pca_val))
 
-        sweep_info['PCR Train Rec. Loss'].append(relRMSE(TRAIN_FIELDS.flatten(), PCA_TRAIN_RECONSTRUCTED_FIELD.flatten()))
-        sweep_info['PCR Validation Rec. Loss'].append(relRMSE(TEST_FIELDS.flatten(), PCA_TEST_RECONSTRUCTED_FIELD.flatten()))
+        sweep_info['PCA Train Rec. Loss'].append(relRMSE(TRAIN_FIELDS.flatten(), PCA_TRAIN_RECONSTRUCTED_FIELD.flatten()))
+        sweep_info['PCA Validation Rec. Loss'].append(relRMSE(TEST_FIELDS.flatten(), PCA_TEST_RECONSTRUCTED_FIELD.flatten()))
 
         ## Loss in reconstruction
         GPR_TRAIN_RECONSTRUCTED_FIELD = pca.inverse_transform(gpr.predict(TRAIN_PARAMS)).reshape(len(TRAIN_PARAMS),361,3,4)
@@ -540,8 +546,8 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
     SMALL_LINEWIDTH = 1
 
     plt.figure(figsize = (8,4))
-    plt.semilogy(Number_PCAs,sweep_info['PCR Train Rec. Loss'],label ='PCR Train Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
-    plt.semilogy(Number_PCAs,sweep_info['PCR Validation Rec. Loss'],label='PCR Validation Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.semilogy(Number_PCAs,sweep_info['PCA Train Rec. Loss'],label ='PCA Train Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
+    plt.semilogy(Number_PCAs,sweep_info['PCA Validation Rec. Loss'],label='PCA Validation Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
     plt.semilogy(Number_PCAs,sweep_info['GP-PCA Train Rec. Loss'],label = 'GP-PCA Train Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
     plt.semilogy(Number_PCAs,sweep_info['GP-PCA Validation Rec. Loss'],label = 'GP-PCA Validation Rec. Loss',linewidth = MEDIUM_LINEWIDTH)
     plt.axhline(train_baseline,label = 'GP Baseline Train Rec. Loss',linestyle = '--',c = 'green',linewidth = SMALL_LINEWIDTH)
@@ -551,6 +557,6 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20):
     plt.legend()
     plt.xlabel('Latent Space Dimensions')
     plt.ylabel('relRMSE Reconstruction Loss')
-    plt.title('PCA and Latent-Regression Reconstruction Loss')
+    plt.title(title)
     plt.grid(True)
 
