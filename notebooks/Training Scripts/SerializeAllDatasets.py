@@ -3,7 +3,7 @@ from ssapp.Utils import train_test_data_split
 from ssapp.data.AntennaDatasetLoaders import * # I know this is a no-no. But in this particular case i think it is okay
 import yaml
 
-WITH_SPLIT = 'Both'
+WITH_SPLIT = True
 
 if __name__ == '__main__':
 
@@ -11,10 +11,10 @@ if __name__ == '__main__':
 
 
     dataset_constructors = [
-                            #MLADataset1,
-                            #eflectorCutDataset2,
+                            MLADataset1,
+                            #ReflectorAntennaDataset3,
                             #PatchAntennaDataset2,
-                            CircularHornDataset1
+                            #CircularHornDataset1
                             ]
 
     print('Running')

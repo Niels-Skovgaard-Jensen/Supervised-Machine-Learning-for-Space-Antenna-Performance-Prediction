@@ -68,13 +68,54 @@ def plot_dataset_timeseries_histogram(dataset):
         fig.colorbar(pcm, ax=ax, label="# points", pad=0)
         ax.set_title("2d histogram and log color scale")
 
+def _mag_co(a,i):
+    return 20*np.log10(np.sqrt(a[i,:,:,0]**2+a[i,:,:,1]**2))
+
+def _mag_cross(a,i):
+    return 20*np.log10(np.sqrt(a[i,:,:,2]**2+a[i,:,:,3]**2))
+
 def plotExampleFromFieldTensor(fields,idx):
 
     phi_name = ['$\phi = 0\degree$','$\phi = 45\degree$','$\phi = 90\degree$']
 
-    mag_co = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,0]**2+a[i,:,:,1]**2)) # Convert fields to dB power plots, copolar
-    mag_cross = lambda a,i: 20*np.log10(np.sqrt(a[i,:,:,2]**2+a[i,:,:,3]**2)) # -||-, crosspolar
-
     theta = np.linspace(-180,180,361) # Generate theta values for x-axis
 
     # Plots
+
+def plotFieldComparison(field_true, field_pred, idx,title= "Field comparison"):
+    """
+    This function is inteded to plot the comparison of the true and predicted fields.
+    of a [batch_size,361,3,4] tensor indicating [batch_size,theta,phi,real_imag] for
+    dimesions [:,:,:,0:2] are copolar and [:,:,:,2:4] are cross_polar.
+    """
+
+    assert field_true.shape == field_pred.shape, "Field tensors must have the same shape"
+
+    
+    phi_name = ['$\phi = 0\degree$','$\phi = 45\degree$','$\phi = 90\degree$']
+
+    theta = np.linspace(-180,180,361) # Generate theta values for x-axis
+
+    transforms = [_mag_co,_mag_cross] # For extracting the magnitude of the fields
+
+
+
+    fig,axs = plt.subplots(nrows = 1, ncols = 2,figsize = (9,2.8),tight_layout = True)
+
+    # Subplots
+    for idx,ax in enumerate(axs):
+        ax.plot(theta,transforms[idx](field_true,idx),label = 'True')
+        ax.plot(theta,transforms[idx](field_pred,idx),label = 'Predicted')
+        ax.set_xlabel(r'$\theta\degree$')
+        ax.set_title(r'$E_{co}$')
+        ax.grid(True)
+        ax.set_ylabel('$|E|$ dB')
+        ax.set_xlim([-180,180])
+
+    # Figure wide
+    fig.legend(loc='lower center',ncol=3)
+    fig.suptitle(title)
+    fig.tight_layout()
+
+    
+    pass
