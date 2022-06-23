@@ -36,7 +36,7 @@ def get_raw_dataset_path(dataset_name: str):
 
     return cut_dir, log_dir
 
-def get_processed_dataset_path(dataset_name: str,ekstra_back_steps = 0):
+def _get_processed_dataset_path(dataset_name: str,ekstra_back_steps = 0):
 
     main_dir = Path().cwd().parents[1+ekstra_back_steps]
     data_dir = main_dir / 'data'
@@ -54,7 +54,7 @@ def gen_coords_from_header(V_INI, V_INC,V_NUM, ):
 
 def serialize_dataset(dataset: Dataset,name = None):    
 
-    save_dir = get_processed_dataset_path(dataset.name)
+    save_dir = _get_processed_dataset_path(dataset.name)
 
     with open(save_dir,'wb') as f:
         pickle.dump(dataset,f)
@@ -62,7 +62,7 @@ def serialize_dataset(dataset: Dataset,name = None):
 
 def dataset_is_serialized(dataset_name: str):
     
-    serial_dir = get_processed_dataset_path(dataset_name) 
+    serial_dir = _get_processed_dataset_path(dataset_name) 
 
     if serial_dir.is_file():
         return True
@@ -70,7 +70,7 @@ def dataset_is_serialized(dataset_name: str):
 
 def load_serialized_dataset(dataset_name: str,extra_back_steps = 0):
 
-    load_dir = get_processed_dataset_path(dataset_name,extra_back_steps)
+    load_dir = _get_processed_dataset_path(dataset_name,extra_back_steps)
     with open(load_dir,'rb') as f:
         dataset = pickle.load(f)
         f.close()
@@ -691,7 +691,7 @@ class MLADataset1(Dataset):
         
         parameters = self.antenna_parameters[idx,:]
 
-        assert type(parameters) == type(torch.tensor([]))
+
 
         field_val = self.field_cut[idx,:,:]
 
