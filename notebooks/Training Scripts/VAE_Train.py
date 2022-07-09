@@ -9,8 +9,9 @@ from ssapp.models.HelperFunctions import saveModel
 import torch.optim as optim
 import torch.nn as nn
 import torch
+import wandb
+import time
 
-from matplotlib import pyplot as plt
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -23,36 +24,53 @@ val_dataset = load_serialized_dataset('CircularHornDataset1_Val',extra_back_step
 
 train_len = len(train_dataset)
 val_len = len(val_dataset)
-config = {'latent_size': 2,
+DEFAULT_CONFIG = {'latent_size': 2,
             'coder_channel_1': 32,
             'coder_channel_2': 128,
-            'batch_size' : 32}
+            'batch_size' : 32,
+            'BETA_REC' : 1,
+            'BETA_KL': 10,
+            'BETA_SMOOTH':1e-9,
+            'Learning Rate':3e-4}
 
-train_dataloader = DataLoader(train_dataset,batch_size=config['batch_size'])
-val_dataloader = DataLoader(val_dataset,batch_size=config['batch_size'])
 
-model = VAE(config)
+project = "VAE_CHA"
+
+wandb.init(config = DEFAULT_CONFIG,project=project, entity="skoogy_dan")
+CONFIG = wandb.config
+run_name = str(wandb.run.name)
+
+train_dataloader = DataLoader(train_dataset,batch_size=CONFIG['batch_size'])
+val_dataloader = DataLoader(val_dataset,batch_size=CONFIG['batch_size'])
+
+model = VAE(CONFIG)
 #model = AutoencoderFullyConnected()
 model.to(device)
-model.double()
 
-optimizer = optim.Adam(model.parameters(), lr=3e-4)
+optimizer = optim.Adam(model.parameters(), lr=CONFIG['Learning Rate'])
 criterion = relRMSE_pytorch
 
-BETA_REC = 1   # Loss multiplication factor for reconstruction loss
-BETA_KL = 1e-5 # -||- for KL divergence loss
-BETA_SMOOTH = 1e-9
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[300,400,450], verbose = True,gamma = 0.1)
+
+BETA_REC = CONFIG['BETA_REC']   # Loss multiplication factor for reconstruction loss
+BETA_KL = CONFIG['BETA_KL'] # -||- for KL divergence loss
+BETA_SMOOTH = CONFIG['BETA_SMOOTH']
 
 best_val_loss = float("inf")
+
+epoch_times_array = []
+
 EPOCHS=500
 for epoch in range(EPOCHS):
     train_epoch_loss, train_epoch_rec_loss, train_epoch_kl_loss = (0,0,0)
 
     train_epoch_smooth_loss = 0
+
+    t0 = time.time()
     for train_params, train_fields in train_dataloader:
         batch_size = len(train_fields)
 
-        train_fields= train_fields.to(device)
+        train_fields= train_fields.float().to(device)
 
         optimizer.zero_grad()
         reconstruction = model(train_fields)
@@ -81,7 +99,7 @@ for epoch in range(EPOCHS):
         for test_params, test_fields in val_dataloader:
             batch_size = len(test_fields)
 
-            test_fields = test_fields.to(device)
+            test_fields = test_fields.float().to(device)
             
             reconstruction = model(test_fields)
             rec_loss = criterion(reconstruction, test_fields)
@@ -93,11 +111,21 @@ for epoch in range(EPOCHS):
             val_epoch_kl_loss += (model.kl/val_len)*batch_size
             val_epoch_loss += (loss/val_len)*batch_size
 
+    scheduler.step() # Step adaptive learning rate scheduler
 
+    t1 = time.time()
+    epoch_time = t1-t0
+    epoch_times_array.append(epoch_time)
     
     if val_epoch_loss < best_val_loss:
         best_val_loss = val_epoch_loss
-        saveModel(model=model,name = 'VAE_test_circular_horn')
+        saveModel(model=model,name = run_name,subfolder=project)
+
+    wandb.log({ 'Train_loss':train_epoch_loss,
+                'Val_loss':val_epoch_loss,
+                'best_val_loss':best_val_loss,
+                'Learning Rate':scheduler.get_last_lr(),
+                'epoch_time':epoch_time})
 
     print("epoch : {}/{}, train_total_loss = {:.9e}, train_rec_loss = {:.9e}, train_kl_loss = {:.9e}".format(epoch + 1, EPOCHS, train_epoch_loss,train_epoch_rec_loss,train_epoch_kl_loss))
     print("epoch : {}/{}, val_total_loss = {:.9e}, val_rec_loss = {:.9e}, val_kl_loss = {:.9e}".format(epoch + 1, EPOCHS, val_epoch_loss,val_epoch_rec_loss,val_epoch_kl_loss))

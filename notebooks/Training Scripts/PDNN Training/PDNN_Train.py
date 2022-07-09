@@ -1,6 +1,4 @@
 # Standard Packages
-from pickle import TRUE
-from re import A
 from torch.utils.data import random_split, DataLoader
 import torch
 import wandb
@@ -25,17 +23,17 @@ torch.manual_seed(42) # Manual seed for sanity
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 DEFAULT_CONFIG = {
-    "learning_rate": 1e-4,
-    "epochs": 500,
-    "batch_size": 32,
-    'num_layers':8,
-    'phi_k' : 2000,
-    's_c' : 1.4,
-    'alpha': 0.08,
+    "learning_rate": 3e-4,
+    "epochs": 100,
+    "batch_size": 1,
+    'num_layers':6,
+    'phi_k' : 1000,
+    's_c' : 1.243,
+    'alpha': 0.1,
     #'dataset': 'CircularHornDataset1',
-    'dataset': 'PatchAntennaDataset2',
+    #'dataset': 'PatchAntennaDataset2',
     #'dataset': 'RFLCT',
-    #'dataset': 'MLADataset1'
+    'dataset': 'MLADataset1'
     }
 
 # Map used dataset to W&B project names
@@ -80,7 +78,7 @@ if torch.cuda.device_count() > 1:
   model = nn.DataParallel(model)
 
 DROP_LAST = False
-PIN_MEMORY = TRUE
+PIN_MEMORY = True
 NUM_WORKERS = 4
 SHUFFLE = False # Data is already shuffled and excessive shuffles slows training 
 PERSISTENT_WORKERS = True
@@ -97,9 +95,9 @@ print(model)
 criterion = relRMSE_pytorch # Custom loss function for relative RMSE
 #criterion = torch.nn.MSELoss() # Runs slightly faster (2-3%) and should ensure same convergence.
 
-optimizer = torch.optim.AdamW(model.parameters(), lr=CONFIG['learning_rate']) 
+optimizer = torch.optim.AdamW(model.parameters(), lr=CONFIG['learning_rate'],weight_decay=1e-2) 
 
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[CONFIG['epochs']*x for x in [0.6,0.9]], verbose = True,gamma = 0.1)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,milestones=[CONFIG['epochs']*x for x in [0.5,0.75,0.9]], verbose = True,gamma = 0.1)
 
 train_loss_array = []
 test_loss_array = []
@@ -189,7 +187,7 @@ for epoch in range(CONFIG["epochs"]):
                 'Learning Rate':scheduler.get_last_lr(),
                 'epoch_time':epoch_time})
     
-    print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}, test_loss = {:.9e}, epoch/min: {:.3f}, mean epoch/min {:.3f}".format(epoch + 1, CONFIG["epochs"], loss,epoch_val_loss,epoch_test_loss,60/epoch_time,mean_epoch_rate))
+    print("epoch : {}/{}, train_loss = {:.9e}, val_loss = {:.9e}, test_loss = {:.9e}, epoch/min: {:.3f}, mean epoch/min {:.3f}".format(epoch + 1, CONFIG["epochs"], epoch_training_loss,epoch_val_loss,epoch_test_loss,60/epoch_time,mean_epoch_rate))
     
 
 saveModel(model=best_model,name = run_name,subfolder=project,extra_step_back=1)

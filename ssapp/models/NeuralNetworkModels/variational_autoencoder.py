@@ -5,7 +5,7 @@ import torch
 
 class VAE(nn.Module):
     """Based slightly on https://medium.com/dataseries/variational-autoencoder-with-pytorch-2d359cbf027b"""
-    def __init__(self,device = 'CPU', config = {'latent_size': 5,
+    def __init__(self,device = 'CPU', config = {'latent_size': 2,
                                 'coder_channel_1': 32,
                                 'coder_channel_2': 128,
                                 'batch_size' : 4}):
@@ -25,13 +25,13 @@ class VAE(nn.Module):
         PADDING_1 = (1,10)
         PADDING_2 = (0,0)
         
-        DTYPE = torch.float64
+        DTYPE = torch.float32
 
         self.conv_encoder1 = nn.Conv2d(in_channels=4,
                                     out_channels=coder_channel_1,
                                     kernel_size=KERNEL_SIZE_1,
                                     padding = PADDING_1,
-                                    stride=STRIDE_1,dtype=torch.float64)
+                                    stride=STRIDE_1)
         self.conv_encoder2 = nn.Conv2d(in_channels=coder_channel_1,
                                     out_channels=coder_channel_2,
                                     kernel_size=KERNEL_SIZE_2,
