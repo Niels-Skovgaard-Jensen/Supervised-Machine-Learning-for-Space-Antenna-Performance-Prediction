@@ -524,7 +524,11 @@ def plotGPvsPCADimensions(dataset, max_number_pca = 20,kernel = None,title='PCA 
         PCA_TRAIN_RECONSTRUCTED_FIELD = pca.inverse_transform(pca_train).reshape(len(TRAIN_FIELDS),361,3,4)
         PCA_TEST_RECONSTRUCTED_FIELD = pca.inverse_transform(pca_val).reshape(len(TEST_FIELDS),361,3,4)
 
-        gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS, pca_train)
+
+        if type(kernel) == type(None):
+            gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor())]).fit(TRAIN_PARAMS, pca_train)
+        else:
+            gpr = Pipeline([('scaler', StandardScaler()), ('gp', GaussianProcessRegressor(kernel=kernel))]).fit(TRAIN_PARAMS, pca_train)
         #gpr = GaussianProcessRegressor().fit(TRAIN_PARAMS, pca_train)
 
         sweep_info['GP Train Latent Loss'].append(relRMSE(gpr.predict(TRAIN_PARAMS), pca_train))
