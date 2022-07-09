@@ -1,11 +1,12 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import seaborn as sns
+import torch
 
 
-def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,include_phase = False):
+def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,include_phase = False,ylim = None):
 
-    assert pred.shape == field.shape
+
 
     assert idx < len(pred),"Index must be less than batch_size"
 
@@ -17,8 +18,12 @@ def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,in
     theta = np.linspace(-180,180,361)
     fig,axs = plt.subplots(ncols=2,nrows=1,figsize = (10,3.2))
 
-    pred = pred.detach().numpy()
-    field = field.detach().numpy()
+    # Convert and detach from autograd if pred or field is tensor
+    if type(pred) == type(torch.tensor([])): 
+        pred = pred.detach().numpy()
+    if type(field) == type(torch.tensor([])):
+        field = field.detach().numpy()
+
 
     mag_co = lambda a,i,pc: 20*np.log10(np.sqrt(a[i,:,pc,0]**2+a[i,:,pc,1]**2)) # Convert fields to dB power plots, copolar
     mag_cross = lambda a,i,pc: 20*np.log10(np.sqrt(a[i,:,pc,2]**2+a[i,:,pc,3]**2)) # -||-, crosspolar
@@ -45,6 +50,9 @@ def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,in
         axs[0].grid(True)
         axs[0].set_xlim([-180,180])
         axs[0].set_xticks([-180,-90,0,90,180])
+        if ylim is not None:
+            axs[0].set_ylim(ylim)
+        
 
     for phi_cut in phi_cuts:
         axs[1].plot(theta,mag_cross(field,idx,phi_cut).T,
@@ -67,6 +75,9 @@ def plotModelPrediction(pred,field, idx = 0, phi_cuts = [0,1,2], title = None,in
         axs[1].grid(True)
         axs[1].set_xlim([-180,180])
         axs[1].set_xticks([-180,-90,0,90,180])
+        if ylim is not None:
+            axs[1].set_ylim(ylim)
+            
 
     
     
