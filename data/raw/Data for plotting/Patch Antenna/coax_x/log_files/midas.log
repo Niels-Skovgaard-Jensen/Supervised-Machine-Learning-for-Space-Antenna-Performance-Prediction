@@ -1,0 +1,6 @@
+2022-06-07 12:02:31,177 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:33] MIDAS started on June 07 2022 12:02:31
+2022-06-07 12:02:33,659 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:185] Searching disk for latest version of ticra-tools.
+2022-06-07 12:02:33,659 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:222] Now using version TICRA-Tools-22.0-2022-05-24-stable_ticra-tools_22.0.
+2022-06-07 12:02:33,659 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:258] TICRA TOOLS was started in /home/sa/Documents/ML_Patch_Antenna_with_Dielectric/coax_x_07-06-2022_12.02.31
+2022-06-07 12:10:38,665 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:292] TICRA TOOLS execution time = 0:08:05.006086
+2022-06-07 12:10:38,666 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:60] MIDAS stopped on June 07 2022 12:10:38, total execution time = 0:08:07.488758

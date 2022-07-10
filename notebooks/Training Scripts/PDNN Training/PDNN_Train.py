@@ -25,7 +25,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 DEFAULT_CONFIG = {
     "learning_rate": 3e-4,
     "epochs": 100,
-    "batch_size": 1,
+    "batch_size": 8,
     'num_layers':6,
     'phi_k' : 1000,
     's_c' : 1.243,

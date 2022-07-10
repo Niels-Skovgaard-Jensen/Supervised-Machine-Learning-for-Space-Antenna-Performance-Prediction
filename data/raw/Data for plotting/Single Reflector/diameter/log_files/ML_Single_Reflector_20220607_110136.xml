@@ -1,0 +1,606 @@
+ <OutputFiles>
+  <File Path="/home/sa/Documents/ML_Single_Reflector/ML_Single_Reflector.tci" Type="tci" Format="Text" Object="unknown" SubObject="unknown" FileOperation="Copy"/>
+  <File Path="ML_Single_Reflector.log" Type="log" Format="Text" Object="unknown" SubObject="unknown" FileOperation="Copy"/>
+  <File Path="ML_Single_Reflector.out" Type="out" Format="Text" Object="unknown" SubObject="unknown" FileOperation="Copy"/>
+  <File Path="/home/sa/Documents/ML_Single_Reflector/ML_Single_Reflector.tor" Type="tor" Format="Text" Object="unknown" SubObject="unknown" FileOperation="Copy"/>
+  <File Path="cut_files/0.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/1.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/2.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/3.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/4.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/5.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/6.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/7.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/8.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/9.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/10.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/11.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/12.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/13.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/14.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/15.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/16.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/17.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/18.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/19.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/20.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/21.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/22.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/23.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/24.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/25.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/26.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/27.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/28.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/29.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/30.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/31.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/32.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/33.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/34.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/35.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/36.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/37.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/38.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/39.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/40.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/41.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/42.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/43.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/44.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/45.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/46.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/47.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/48.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/49.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/50.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/51.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/52.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/53.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/54.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/55.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/56.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/57.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/58.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/59.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/60.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/61.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/62.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/63.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/64.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/65.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/66.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/67.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/68.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/69.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/70.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/71.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/72.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/73.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/74.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/75.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/76.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/77.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/78.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/79.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/80.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/81.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/82.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/83.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/84.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/85.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/86.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/87.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/88.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/89.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/90.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/91.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/92.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/93.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/94.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/95.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/96.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/97.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/98.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+  <File Path="cut_files/99.cut" Type="Cut:Spherical" Format="Ticra" Object="freq_ind_model_cut" SubObject="unknown" Quantity="E" FileOperation="Copy">
+    <Parameter Name="Frequency" Values=" 299.792458000000" Unit="GHz" />
+    <Parameter Name="Phi" Values="[0.000000000000000E+000;90.0000000000000;3]" Unit="deg" />
+    <Parameter Name="Theta" Values="[-180.000000000000;180.000000000000;361]" Unit="deg" />
+    <Scan Type="polar"/>
+  </File>
+ </OutputFiles>

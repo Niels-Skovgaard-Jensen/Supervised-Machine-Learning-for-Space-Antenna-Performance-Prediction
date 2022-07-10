@@ -1,6 +1,0 @@
-2022-06-07 11:00:19,050 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:33] MIDAS started on June 07 2022 11:00:19
-2022-06-07 11:00:21,873 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:185] Searching disk for latest version of ticra-tools.
-2022-06-07 11:00:21,873 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:222] Now using version TICRA-Tools-22.0-2022-05-24-stable_ticra-tools_22.0.
-2022-06-07 11:00:21,873 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:258] TICRA TOOLS was started in /home/sa/Documents/ML_Single_Reflector/results_07-06-2022_11.00.19
-2022-06-07 11:00:49,879 MIDAS::INFO [/home/sa/Documents/MIDAS/src/executing.py:292] TICRA TOOLS execution time = 0:00:28.006003
-2022-06-07 11:00:49,880 MIDAS::INFO [/home/sa/Documents/MIDAS/src/__main__.py:60] MIDAS stopped on June 07 2022 11:00:49, total execution time = 0:00:30.829727

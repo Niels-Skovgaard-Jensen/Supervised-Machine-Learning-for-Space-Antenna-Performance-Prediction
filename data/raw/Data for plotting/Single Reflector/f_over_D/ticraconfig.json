@@ -1,0 +1,42 @@
+{
+  "output": {
+    "path": "results",
+    "structure": {
+      ".cut": "cut_files"
+    }
+  },
+  "variables": [
+    {
+      "name": "freq_ind_model_design_main_focal_length_over_diameter",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0.4, "stop": 1.2, "num": 100 }
+      }
+    },
+    {
+      "name": "freq_ind_model_design_reflector_diameter",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 0.1, "stop": 0.4, "num": 1 }
+      }
+    },
+    {
+      "name": "freq_ind_model_design_offset_over_diameter",
+      "class": "real_variable",
+      "domain": {
+        "distribution": "numpy.linspace",
+        "kwargs": { "start": 1.5, "stop": 3.0, "num": 1 }
+      }
+    }
+  ],
+  "command": [
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT {} set ( value : {}, class : {})",
+    "COMMAND OBJECT freq_ind_model_cut set ( file_name : {cut_files}, class : freq_ind_model_cut)",
+    "COMMAND OBJECT freq_ind_model_po get_currents ( source : sequence(ref(freq_ind_model_feed)), auto_convergence_of_po : on, convergence_on_output_grid : sequence(ref(freq_ind_model_cut))) freq_ind_model_po_cmd",
+    "COMMAND OBJECT freq_ind_model_cut get_field ( source : sequence(ref(freq_ind_model_po), ref(freq_ind_model_feed))) single_get_field_cmd"
+  ]
+}
