@@ -1,15 +1,12 @@
 # Supervised machine learning for Space Antenna Performance Prediction (ssapp)
 ### By Niels Skovgaard Jensen
-This repository is an overview of the work conducted as my Master Thesis at The Technical University of Denmark in collaboration with TICRA FOND. 
+This repository is an overview of the work conducted as my Master's Thesis at The Technical University of Denmark in collaboration with TICRA FOND. 
 
-The main objective is to create surrogate models of antennas from data created by fine antennas models. Here TICRAS Toolset has been used for generating far field antenna patterns of different antenna configurations which are then modelled by a set of different machine learning methods.
+The main objective is to create surrogate antenna models from data created by fine antenna models. Here, the TICRAS Toolset has been used for generating far-field antenna patterns of different antenna configurations, which are then modelled by a set of different machine learning methods.
 
-For overview and mathy stuff look [here](https://skoogydan.github.io/Supervised-Machine-Learning-for-Space-Antenna-Performance-Prediction/)
+For an overview and more stuff look [here](https://skoogydan.github.io/Supervised-Machine-Learning-for-Space-Antenna-Performance-Prediction/)
 
-
-
-
-Easiest way to install is simply to make a new virtual enviornment with python 3.8.11 and run
+The easiest way to install is simply to make a new virtual environment with python 3.8.11 and run
 
 ```
 python install -r requirements.txt
@@ -64,7 +61,7 @@ The project is structured roughly in accordance with the [cookiecutter data scie
 ```
 
 
-All of the datasets are included in a raw .txt format in the repository, but they are used in serialized form throughout the package and notebooks. To turn all the datatsets into serialized form the SerializeAllDatasets script can be used. Inside the script.
+The repository includes all of the datasets in raw .txt format, but they are used in serialized form throughout the package and notebooks. To convert all the datasets into serialized form, the SerializeAllDatasets script can be used inside the script.
 ```
 python usr/Supervised-Machine-Learning-for-Space-Antenna-Performance-Prediction\notebooks\Training Scripts\SerializeAllDatasets.py
 ```
